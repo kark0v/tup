@@ -1,0 +1,27 @@
+.footer{:id => (type).downcase}
+  #feedback
+    #feedbacklabel
+      Send us your feedback:
+    
+    #feedbackinput
+      = form_tag feedback_path, :id => 'feedback-form'
+      = text_area_tag 'feedback', 'Bugs, Suggestions or comments...', :id => "feedback-textarea"
+      = submit_tag "Send", :id => 'feedback-send'
+      %button{:id => 'feedback-cancel' } Cancel
+
+  .clear
+          
+  #links
+    #linksright
+      The Usability Page &copy; 2008-2009 
+      Valid 
+      = link_to 'Accessibility', 'http://wave.webaim.org/refer', :target => "_blank"
+      = link_to 'CSS', 'http://jigsaw.w3.org/css-validator/check?uri=referer', :target => "_blank"
+      = link_to 'XHTML', 'http://validator.w3.org/check?uri=referer', :target => "_blank"
+
+    #linksleft
+      = link_to 'About Us', aboutus_path
+      = link_to 'Terms of Use', tou_path
+      = link_to 'FAQ', faq_path
+      = link_to 'Contact Us', contactus_path
+      = link_to 'Blog', 'http://blog.theusabilitypage.com/', :target => "_blank"

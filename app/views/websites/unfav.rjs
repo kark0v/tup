@@ -1,0 +1,5 @@
+page[:link_unfav].hide
+page[:link_fav].show
+page.replace_html :fans_block, :partial => 'websites/fans_block', :layout => '/layouts/sidebox', :locals => { :title => 'Favorite Website of' }
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard  

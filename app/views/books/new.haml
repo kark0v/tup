@@ -1,0 +1,35 @@
+- title 'Request Book'
+- section 'books'
+
+= render :partial => 'subnavs/books'
+
+- content_for :sidebar do
+  - unless Book.tag_counts.empty?
+    = render :partial => 'tag_cloud', :layout => '/layouts/sidebox', :locals => { :title => 'Books Cloud' }
+  - unless Book.recently_submited.empty?
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }
+
+.one-column	
+  %h2.title
+    Request a New Book to our Library
+
+  - form_for(@book, :html => { :multipart => true, :class => "frm" }) do |f|
+    = f.error_messages
+
+    %p
+      = f.label :title
+      = f.text_field :title, :class => 'required'
+      %span Enter the title of the book as you know it.
+    %p
+      = f.label :author
+      = f.text_field :author, :class => 'required'
+      %span If there is more than one author, separate their names with commas.
+    %p
+      = f.label :isbn, "ISBN"
+      = f.text_field :isbn
+      %span Enter the book's "International Standard Book Number" (ISBN-10 or ISBN-13).
+  
+    %p
+      = f.submit 'Create'
+      = link_to 'Cancel', books_path
+

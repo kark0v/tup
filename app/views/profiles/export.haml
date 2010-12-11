@@ -1,0 +1,20 @@
+- title 'My Profile :: Export'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    Export your Contacts
+
+  %p Export contacts is currently unavailable. More news soon!
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'network', :page => 'export' }
+

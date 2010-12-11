@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  endorser_id: 1
+  endorsee_id: 1
+  body: MyText
+
+two:
+  endorser_id: 1
+  endorsee_id: 1
+  body: MyText

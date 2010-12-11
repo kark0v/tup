@@ -1,0 +1,3 @@
+page[:suggestion_form].reset
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard  

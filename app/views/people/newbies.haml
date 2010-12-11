@@ -1,0 +1,29 @@
+- title 'Newbies'
+- section 'people'
+
+= render :partial => 'subnavs/people'
+
+.one-column
+  %h2.title 
+    Who is joining The Usability Page?
+
+  %ul
+  - @people.each do |date, people|
+    %h2.subtitle 
+      = h date.strftime("%B #{date.day.ordinalize}, %Y")
+    %li
+      %ul.objects.people
+        - people.each do |person|
+          %li{person.featured ? { :class => 'featured' } : {} }
+            .people_block
+              .info
+                %h3.name
+                  %a{:href => person_url(person)}
+                    = h person.name
+                .points
+                  = h person.total_points
+                  UX Points
+              .image
+                %a{:href => person_url(person)}
+                  = image_tag person.photo.url(:thumb)
+      .clear

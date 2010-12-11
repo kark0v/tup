@@ -1,0 +1,150 @@
+- title "#{@person.name}"
+- section 'people'
+
+= render :partial => 'subnavs/people'
+
+- content_for :sidebar do
+  - if current_user != @person
+    = render :partial => 'sidebar_network', :layout => '/layouts/sidebox', :locals => { :title => "#{@person.name}'s network", :person => @person }
+  - if current_user
+    = render :partial => 'sidebar_network', :layout => '/layouts/sidebox', :locals => { :title => "Your network", :person => current_user }
+
+.one-column
+  %h2.title
+    = h @person.name
+
+  %div.actions
+    - if current_user and current_user.has_role? 'tup_member'
+      %ul.admin_actions
+        %li= link_to 'Edit', edit_person_path(@person)
+        - if @person.featured
+          %li= link_to 'Unfeature', unfeature_person_path(@person), :method => :put
+        - else
+          %li= link_to 'Feature', feature_person_path(@person), :method => :put
+
+    %ul.user_actions
+      - if current_user and current_user != @person
+        - if current_user.follows?(@person)
+          %li= link_to 'Unfollow', unfollow_person_path(@person), :method => :put
+        - else
+          - if current_user.blocked_by? @person
+            %li.disabled Follow
+          - else
+            %li= link_to 'Follow', follow_person_path(@person), :method => :put
+
+        - if current_user.blocks?(@person)
+          %li= link_to 'Unblock', unblock_person_path(@person), :method => :put
+        - else
+          %li= link_to 'Block', block_person_path(@person), :method => :put
+
+
+      - if current_user != @person
+        - if current_user
+          %li= link_to 'Endorse', '#endorsebox', :rel => 'facebox'
+          %li= link_to 'Report', "#reportbox_person_#{@person.id}", :rel => "facebox"
+        - else
+          %li= link_to 'Endorse', "#loginbox_person_#{@person.id}", :rel => "facebox"
+          %li= link_to 'Report', "#loginbox_person_#{@person.id}", :rel => "facebox"
+      - else
+        %li= link_to 'Go to Profile', profile_path
+
+  .person_profile.vcard
+
+    .object_image{ :id => 'people' }
+      = image_tag @person.photo.url, :class => 'photo'
+
+    .object_info{ :id => 'people' }
+      - if @person.professional_headline.present?
+        .line
+          .label
+            Professional Headline:
+          = h @person.professional_headline
+
+      - if @person.homepage.present?
+        .line
+          .label
+            Homepage:
+          = link_to @person.homepage, @person.homepage, :target => :new
+
+      .line
+        .label
+          UX Points:
+        = h @person.total_points
+
+  %h2.subtitle Submitted Websites
+  - if @person.websites.active.empty?
+    %p= "#{@person.name} hasn't added any websites yet."
+  - else
+    %ul.profile_websites.websites.objects
+      - @person.websites.each do |website|
+        %li{website.featured ? { :class => "featured" } : {} }
+          .website_block
+            %h3
+              %a{:href => website_url(website)}
+                = h website.name
+            .image
+              %a{:href => website_url(website)}
+                - if website.screenshots.empty?
+                  = image_tag('/images/screenshot.jpg')
+                - else
+                  = image_tag website.screenshots.first.photo.url(:thumb)
+            .label
+              - for tag in website.tags
+                = link_to tag.name, websites_path(:tag => tag.name)
+    .clear
+
+  %h2.subtitle Favourite Books
+  - if @person.fav_books.empty?
+    %p= "#{@person.name} hasn't marked any books as favourite yet."
+  - else
+    %ul.profile_websites.books.objects
+      - @person.fav_books.shuffle[0, 4].each do |book|
+        %li
+          .image
+            %a{:href => book_url(book)}
+              = image_tag book.photo.url(:thumb)
+          %h3
+            %a{:href => book_url(book)}
+              = h book.title
+          .author
+            = h book.author
+          - unless book.tags.empty?
+            .label
+              - for tag in book.tags
+                = link_to tag.name, books_path(:tag => tag.name)
+    .clear
+    - if @person.fav_books.size > 4
+      %p
+        = link_to 'See All', fav_books_person_path(@person)
+
+  %h2.subtitle Endorsements
+  - if !@person.endorsements.pending.empty? and current_user == @person
+    = "You have #{pluralize(@person.endorsements.pending.count, 'pending endorsement')}."
+    = link_to 'Manage Endorsements', endorsements_profile_path
+
+  - if @person.endorsements.accepted.empty?
+    %p
+      = "#{@person.name} didn't receive any endorsement yet."
+      - if current_user != @person
+        - if current_user
+          = link_to "Endorse #{@person.name}!", '#endorsebox', :rel => 'facebox'
+        - else
+          = link_to "Endorse #{@person.name}!", "#loginbox_person_#{@person.id}", :rel => "facebox"
+  - else
+    %ul.endorsements
+      - @person.endorsements.accepted.each do |endorsement|
+        %li
+          %p= endorsement.body
+          %p
+            by
+            = link_to endorsement.endorser.name, person_path(endorsement.endorser)
+            at
+            = endorsement.created_at
+
+  - if current_user
+    = report_box @person
+    = sendmessage_box @person
+    = render :partial => 'people/endorse', :locals => { :element => @person }
+  - else
+    = login_box @person
+

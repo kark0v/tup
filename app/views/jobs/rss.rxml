@@ -1,0 +1,20 @@
+xml.instruct! :xml, :version => "1.0"
+xml.rss "version" => "2.0" do
+  xml.channel do
+    xml.title "Recent job postings"
+    xml.link url_for :only_path => false, :controller => 'jobs'
+    xml.description "Recent job postings at The Usability Page"
+    xml.language 'en-us'
+
+    @jobs.each do |job|
+      xml.item do
+        xml.title job.role
+        xml.description "Company: #{job.company}<br />Company website: #{link_to job.company_website, job.company_website}<br />Description:#{job.description}<br />How to apply: #{job.howtoapply}<br />Deadline: #{job.deadline_at}"
+        xml.author "#{job.person.email} (#{job.person.name})"
+        xml.pubDate job.created_at.rfc2822
+        xml.link url_for :only_path => false, :controller => 'jobs', :action => 'show', :id => job.id
+        xml.guid url_for :only_path => false, :controller => 'jobs', :action => 'show', :id => job.id
+      end
+    end
+  end
+end

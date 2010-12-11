@@ -1,0 +1,32 @@
+- title "#{@person.name} :: Followers"
+- section 'people'
+
+= render :partial => 'subnavs/people'
+
+- content_for :sidebar do
+  /= render :partial => 'invite_friends', :layout => '/layouts/sidebox', :locals => { :title => 'Invite Friends' }     
+  = render :partial => 'recently_joined', :layout => '/layouts/sidebox', :locals => { :title => 'Who is joining?' }
+	
+.one-column			
+  %h2.title
+    = h "Who is following #{@person.name}?"
+			
+  - unless @followers.empty?
+    %ul.objects.people
+      - @followers.sort_by(&:name).each do |person|
+        %li{person.featured ? { :class => 'featured' } : {} }
+          .people_block
+            .info
+              %h3.name
+                %a{:href => person_url(person)}
+                  = h person.name
+              .points
+                = h person.total_points
+                UX Points
+            .image
+              %a{:href => person_url(person)}
+                = image_tag person.photo.url(:thumb)
+    .clear		
+    = will_paginate @followers
+  - else
+    %p There is no followers for #{@person.name}.

@@ -1,0 +1,14 @@
+%div{ :id=>"new_comment#{review.id}", :class => "new_comment_block", :style => "display:none;"}
+  - form_remote_for([review, comment] , :html => {:id => 'comment_form', :class => 'frm'}) do |f|
+    = f.error_messages
+    .title
+      Add your Comment
+    = f.text_area :body
+    %span You can use #{link_to 'Textile syntax', 'http://textism.com/tools/textile/', :target => "_blank"}
+		 
+    .submit_actions
+      = f.submit 'Submit'
+      = link_to_function "Cancel", "new_review_comment(#{review.id})"
+  .clear		 
+
+

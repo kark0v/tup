@@ -1,0 +1,99 @@
+- title "Job :: #{@job.role} at #{@job.company}"
+- section 'jobs'
+
+= render :partial => 'subnavs/jobs'
+
+- content_for :sidebar do 
+  - if current_user	
+    = render :partial => 'suggest_to_friend', :layout => '/layouts/sidebox', :locals => { :title => 'Suggest to a Friend' }
+  - if @job.same_company.size != 0
+    = render :partial => 'same_company', :layout => '/layouts/sidebox', :locals => { :title => "Other Jobs at #{@job.company}" }	
+  - if @job.similar.size != 0
+    = render :partial => 'similar_jobs', :layout => '/layouts/sidebox', :locals => { :title => 'Similar Jobs' }					
+  - if @job.same_recruiter.size != 0
+    = render :partial => 'same_recruiter', :layout => '/layouts/sidebox', :locals => { :title => "Also Submitted by #{@job.person.name}" }			
+
+.one-column		
+  %h2.title 
+    = h @job.role
+    %span.particle
+      at
+    = h @job.company	
+
+  %div.actions 	
+    - if current_user and current_user.has_role? 'tup_member'
+      %ul.admin_actions
+        %li= link_to 'Remove', job_path(@job), :confirm => 'Are you sure?', :method => :delete
+        %li= link_to 'Edit', edit_job_path(@job)
+        - if @job.featured
+          %li= link_to 'Unfeature', unfeature_job_path(@job), :method => :put
+        - else
+          %li= link_to 'Feature', feature_job_path(@job), :method => :put
+
+    %ul.user_actions
+      - if current_user == @job.person
+        %li= link_to 'Edit', edit_job_path(@job)
+        - if @job.open?
+          %li= link_to 'Archive', close_job_path(@job), :method => :put
+        - else
+          %li= link_to 'Reopen Job', open_job_path(@job), :method => :put
+      - if current_user
+        %li{current_user.job_favs?(@job) ? { :id => 'link_unfav', :style => "display: block;" } : { :id => 'link_unfav', :style => "display: none;"} }
+          = link_to_remote "Unmark as Favorite", :url => unfav_job_url(:id => @job.id), :method => :unfav
+        %li{!current_user.job_favs?(@job) ? { :id => 'link_fav', :style => "display: block;" } : { :id => 'link_fav', :style => "display: none;"} }
+          = link_to_remote "Mark as Favorite", :url => fav_job_url(:id => @job.id), :method => :fav
+        %li= link_to 'Report', "#reportbox_job_#{@job.id}", :rel => "facebox"
+      - else
+        %li= link_to 'Mark as Favorite', "#loginbox_job_#{@job.id}", :rel => "facebox"
+        %li= link_to 'Report', "#loginbox_job_#{@job.id}", :rel => "facebox"	
+
+  .object_image{ :id => 'job' }
+
+
+  .object_info{ :id => 'job' }
+    .line
+      .label
+        Type:
+      = h "#{@job.mode}, #{@job.duration}"
+		
+    .line
+      .label
+        Location:
+      = h @job.location	
+		
+    .line
+      .label
+        Website:
+      = link_to @job.company_website, @job.company_website, :target => :new
+		
+    .line
+      .label
+        Submitted by:
+      - if @job.person.is_tup?
+        = h @job.person.name
+      - else
+        %a{:href => person_url(@job.person)}
+          = h @job.person.name
+		
+    - if @job.deadline_at
+      .line
+        .label
+          Deadline to Apply:
+        = h @job.deadline_at.strftime("%A, %B #{@job.deadline_at.day.ordinalize}, %Y")
+  .clear		
+
+  %h2.subtitle 
+    About the Job:
+  %p
+    = RedCloth.new(@job.description).to_html
+
+  %h2.subtitle 
+    How to Apply:
+  %p
+    = RedCloth.new(@job.howtoapply).to_html
+   
+  - if current_user
+    = report_box @job
+  - else
+    = login_box @job  
+

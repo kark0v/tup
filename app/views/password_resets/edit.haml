@@ -1,0 +1,24 @@
+- title 'Reset your password'
+- section 'misc'
+
+- content_for :sidebar do
+  = render :partial => 'people/welcome', :layout => '/layouts/sidebox', :locals => { :title => 'Welcome!' }  
+
+.one-column
+  %h2.title
+    Recover Password
+  
+  %p.info
+    Insert the email you registered with and we will email you the instructions to reset your password.
+  
+  - form_tag password_resets_path+"/"+params[:id], {:class => "frm", :method => :put} do
+    %p
+      = label_tag :password
+      = password_field_tag :password, nil, :class => 'required validate-password'
+      %span Password must be atleast 4 characters long.
+    %p
+      = label_tag :password_confirmation
+      = password_field_tag :password_confirmation, nil, :class => 'required validate-password-confirm'
+      %span Please re-enter the password.
+    %p
+      = submit_tag 'Reset password'

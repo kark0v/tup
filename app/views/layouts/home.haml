@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+%html{:xmlns => 'http://www.w3.org/1999/xhtml', :lang => 'en-gb'}
+  %head
+    %title= "The Usability Page :: #{yield(:title)}"
+    %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}
+    / Favicon
+
+    / CSS
+    = stylesheet_link_tag 'main.css', 'pink.css', 'facebox.css', 'application.css', 'star.css', 'validation.css'
+    = yield :css_includes
+
+    / Javascript
+    = javascript_include_tag :defaults, 'facebox.js', 'validation.min.js'
+    = yield :javascript_includes
+		
+    / RSS
+    = auto_discovery_link_tag(:rss, {:controller => "jobs", :action => "rss", :title => "Recent job postings"})
+
+  %body{:class => (yield(:section) || "").downcase}
+    #container
+      = render :partial => 'layouts/header'
+        
+      #home-content
+        = yield
+      = render :partial => 'layouts/footer', :locals => { :type => 'home' }  			
+    <script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">try { var pageTracker = _gat._getTracker("UA-6207853-1"); pageTracker._setDomainName(".theusabilitypage.com");pageTracker._trackPageview();} catch(err) {}</script>

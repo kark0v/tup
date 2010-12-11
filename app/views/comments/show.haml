@@ -1,0 +1,21 @@
+- title "Comments"
+- section "comments"
+
+%p
+  %b Author:
+  %a{:href => person_url(comment.person), :title => comment.person.name }
+    =h @comment.person.name
+%p
+  %b Date:
+  =h @comment.created_at
+%p
+  %b Website:
+  = link_to @comment.review.website.name, website_path(@comment.review.website)
+%p
+  %b Comment:
+  %br
+  =h @comment.body
+%p
+  = link_to 'Edit', edit_comment_path(@comment)
+  = link_to 'Destroy', comment_path(@comment), :confirm => 'Are you sure?', :method => :delete
+

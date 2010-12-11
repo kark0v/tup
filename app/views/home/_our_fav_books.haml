@@ -1,0 +1,12 @@
+%ul.books
+  - @tup_members_favs.each do |book|
+    %li
+      %a{:href => book_url(book), :title => book.title }
+        = image_tag book.photo.url(:small)
+      .info
+        %span.fn
+          %a{:href => book_url(book), :title => book.title }
+            = book.title
+          by 
+          = book.author
+      .clear

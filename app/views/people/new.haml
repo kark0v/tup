@@ -1,0 +1,45 @@
+- title 'Sign up'
+- section 'misc'
+
+- content_for :sidebar do
+  = render :partial => 'welcome', :layout => '/layouts/sidebox', :locals => { :title => 'Welcome!' }  
+  = render :partial => '/home/contactus_sidebox', :layout => '/layouts/sidebox', :locals => { :title => 'Get to know us' }  
+
+.one-column  
+  %h2.title
+    Sign up
+  
+  %p.info
+    The signup process is restricted at the time. Please leave us your email and we will send you an invite as soon as possible!
+  
+  - form_for(@invite, :url => { :action => :get_invited }, :html => { :class => "frm" }) do |f|  
+    %p
+      = f.label :email
+      = f.text_field :email, :class => 'required validate-email'
+    %p
+      = f.submit 'Submit'
+
+/
+  - form_for(@person,:html => {:class => "frm"}) do |f|
+    = f.error_messages
+
+    %p
+      = f.label :name, "Full name"
+      = f.text_field :name, :class => 'required'
+      %span This will be shown on your public profile
+
+    %p
+      = f.label :email
+      = f.text_field :email, :class => 'required validate-email'
+      %span The email you provide will be used as your login
+      
+    %p
+      = f.label :password
+      = f.password_field :password, :class => 'required validate-password'
+      %span Password must be atleast 4 characters long.
+    %p
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation, :class => 'required validate-password-confirm'
+      %span Please enter the password again.
+    %p
+      = f.submit 'Sign up!'

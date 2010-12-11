@@ -1,0 +1,6 @@
+- content_for :sub_nav do 
+  %ul
+    %li= link_to 'Browse', websites_path
+    %li= link_to 'Submit Website', new_website_path
+    - unless Website.active.first.nil?
+      %li= link_to 'Review Random Website', random_websites_path

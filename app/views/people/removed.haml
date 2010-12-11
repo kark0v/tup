@@ -1,0 +1,24 @@
+- title 'Removed Person'
+- section 'people'
+
+= render :partial => 'subnavs/people'
+
+- content_for :sidebar do
+  /= render :partial => 'invite_friends', :layout => '/layouts/sidebox', :locals => { :title => 'Invite Friends' }     
+  - if current_user
+    = render :partial => 'sidebar_network', :layout => '/layouts/sidebox', :locals => { :title => "Your network", :person => current_user }
+  = render :partial => 'recently_joined', :layout => '/layouts/sidebox', :locals => { :title => 'Who is joining?' }
+					
+.one-column				
+  %h2.title
+    User Removed
+
+  %p= "This User was removed by the Administration due one or more of the following itens:"
+
+  %ul
+    %li - Offensive behaviour
+    %li - Duplication
+    %li - Disrespect to other community members
+
+  %p= "If it is your profile and/or you have an enquire, please #{link_to 'contact us', contactus_path}."	
+				

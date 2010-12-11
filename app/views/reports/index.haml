@@ -1,0 +1,102 @@
+- title 'Administration :: Reports'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column
+  %h2.title
+    Reports
+
+  - unless @reports.empty?
+    %table
+      %thead
+        %td Type
+        %td Object
+        %td Reported by
+        %td Date
+        %td Status
+        %td Actions
+      - @reports.each do |report|
+        %tr{ :id => "report_#{report.id}" }	
+          - if (report.job_id)
+            %td= Job
+            %td
+              %a{:href => job_url(report.job)}
+                = h report.job.role
+                at
+                = h report.job.company
+					
+          - if (report.book_id)
+            %td= Book
+            %td
+              %a{:href => book_url(report.book)}
+                = h report.book.title 
+                by
+                = h report.book.author
+					
+          - if (report.person_id)
+            %td= Person
+            %td
+              %a{:href => person_url(report.person)}
+                = h report.person.name 
+					
+          - if (report.website_id)
+            %td= Website
+            %td
+              %a{:href => website_url(report.website)}
+                = h report.website.name
+					
+          - if report.review_id and report.review.website
+            %td= Review
+            %td
+              Review
+              %a{:href => review_url(report.review)}
+                = h report.review.id
+              on
+              %a{:href => website_url(report.review.website)}
+                = h report.review.website.name
+
+          - if report.review_id and report.review.book
+            %td= Review
+            %td
+              Review
+              %a{:href => review_url(report.review)}
+                = h report.review.id
+              on
+              %a{:href => book_url(report.review.book)}
+                = h report.review.book.title
+                by
+                = h report.review.book.author
+											
+          - if (report.comment_id)
+            %td= Comment
+            %td
+              Comment
+              %a{:href => comment_url(report.comment)}
+                = h report.comment.id
+              on Review
+              %a{:href => review_url(report.comment.review)}
+                = h report.comment.review.id
+						
+          - if (report.message_id)
+            %td= "SPAM"
+            %td
+              Message
+              = report.message_id
+              on Conversation
+              %a{:href => conversation_url(report.message.conversation)}
+                = h report.message.conversation.title
+		
+          %td
+            %a{:href => person_url(report.reporter)}
+              = report.reporter.name
+          %td= report.created_at
+          %td= report.status
+          %td
+            = link_to 'See', report_path(report)
+            = link_to_remote "x", :url => report_url(:id => report), :method => :delete
+            - if current_user != report.reporter
+              = link_to 'Reply', reply_report_conversation_path(report), :method => :put
+  - else
+    %p Great! There are no active Reports.
+	

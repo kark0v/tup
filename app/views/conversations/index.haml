@@ -1,0 +1,36 @@
+- title 'Conversations'
+- section 'inbox'
+
+- content_for :sub_nav do 
+  %ul
+    %li= link_to 'Conversations', conversations_path
+    %li= link_to 'Notifications', notifications_inbox_path
+    %li= link_to 'Suggestions', suggestions_inbox_path
+						
+.two-columns-body		
+  %h2.title
+    Conversations
+	
+  %div.actions 	
+    %ul.user_actions
+      %li= link_to 'Compose', new_conversation_path
+
+  - if @conversations.empty?
+    %p No messages for you. Go around and be social!
+  - else
+    %ul
+      - @conversations.each do |conversation|
+        %li
+          %a{:href => person_url(conversation.messages.last.person), :title => conversation.messages.last.person.name }
+            = image_tag conversation.messages.last.person.photo.url(:thumb), :style => 'float: left'
+          %a{:href => person_url(conversation.messages.last.person), :title => conversation.messages.last.person.name }
+            - if conversation.messages.last.person == current_user
+              You
+            - else
+              = conversation.messages.last.person.name
+          = link_to conversation.title, conversation_path(conversation)
+          = link_to "Remove", remover_conversation_path(conversation), :confirm => 'Are you sure?', :method => :put
+					
+    = will_paginate @conversations
+
+= render :partial => 'conversations/sidebar', :locals => { :element => @person, :page => 'all' }  

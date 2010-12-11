@@ -1,0 +1,9 @@
+%ul.recently_submited
+  - @website.samesubmitter(3).each do |websiteby|
+    %li
+      %a{:href => website_url(websiteby)}
+        - if websiteby.screenshots.empty?
+          = image_tag('/images/default_website_t.png')
+        - else
+          = image_tag websiteby.screenshots.first.photo.url(:small)
+        = websiteby.name

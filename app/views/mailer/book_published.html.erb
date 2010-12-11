@@ -1,0 +1,24 @@
+<p>
+  Hello <%= @book.person.name %>!
+</p>
+
+<p>
+  The book you submitted, <%= @book.title%>, has been approved and <%= link_to "is now available", book_url(@book) %> for everyone to see at The Usability Page.
+</p>
+    
+<p>
+  You got <%= link_to("20 UX points", points_profile_url) %> for this! Congratulations!
+</p>
+<div>
+  Thank you for sharing and contributing for a better web!
+</div>
+
+ 
+<p>
+    ---<br />
+    The Usability Page Team 
+</p>
+
+<p>
+  This message was intended for <%= @book.person.email %>. If you do not wish to receive this type of email from The Usability Page in the future, go to your profile and configure your notification settings.
+</p>

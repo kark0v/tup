@@ -1,0 +1,155 @@
+- title 'My Profile :: My Books'
+- section 'people'
+
+- content_for :javascript_includes do
+  = javascript_include_tag "livepipe.js", "tabs.js", "profile/books_lists.js"
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Books
+
+  - unless @books.empty?
+    %ul#tabs_books_lists_profile.subsection_tabs
+      %li.tab
+        %a{:href => "#all", :class => 'active' }
+          All
+      %li.tab
+        %a{:href => "#finished"}
+          Finished
+      %li.tab
+        %a{:href => "#reading"}
+          Reading
+      %li.tab
+        %a{:href => "#reference"}
+          Reference
+      %li.tab
+        %a{:href => "#wanttoread"}
+          Want to Read
+      %li.tab
+        %a{:href => "#abandoned"}
+          Abandoned
+      .clear
+
+    #all
+      %ul.objects.books
+        - @books.each do |listbook|
+          %li
+            .image
+              %a{:href => book_url(listbook.book)}
+                = image_tag listbook.book.photo.url
+            %h3
+              %a{:href => book_url(listbook.book)}
+                = h listbook.book.title
+            .author
+              = h listbook.book.author
+            - unless listbook.book.tags.empty?
+              .label
+                - for tag in listbook.book.tags
+                  = link_to tag.name, books_path(:tag => tag.name)
+      .clear
+
+    #finished
+      %ul.objects.books
+        - @finished_books.each do |listbook|
+          %li
+            .image
+              %a{:href => book_url(listbook.book)}
+                = image_tag listbook.book.photo.url(:thumb)
+            %h3
+              %a{:href => book_url(listbook.book)}
+                = h listbook.book.title
+            .author
+              = h listbook.book.author
+            - unless listbook.book.tags.empty?
+              .label
+                - for tag in listbook.book.tags
+                  = link_to tag.name, books_path(:tag => tag.name)
+      .clear
+
+    #reading
+      %ul.objects.books
+        - @reading_books.each do |listbook|
+          %li
+            .image
+              %a{:href => book_url(listbook.book)}
+                = image_tag listbook.book.photo.url(:thumb)
+            %h3
+              %a{:href => book_url(listbook.book)}
+                = h listbook.book.title
+            .author
+              = h listbook.book.author
+            - unless listbook.book.tags.empty?
+              .label
+                - for tag in listbook.book.tags
+                  = link_to tag.name, books_path(:tag => tag.name)
+      .clear
+
+    #reference
+      %ul.objects.books
+        - @reference_books.each do |listbook|
+          %li
+            .image
+              %a{:href => book_url(listbook.book)}
+                = image_tag listbook.book.photo.url(:thumb)
+            %h3
+              %a{:href => book_url(listbook.book)}
+                = h listbook.book.title
+            .author
+              = h listbook.book.author
+            - unless listbook.book.tags.empty?
+              .label
+                - for tag in listbook.book.tags
+                  = link_to tag.name, books_path(:tag => tag.name)
+      .clear
+
+    #wanttoread
+      %ul.objects.books
+        - @wanttoread_books.each do |listbook|
+          %li
+            .image
+              %a{:href => book_url(listbook.book)}
+                = image_tag listbook.book.photo.url(:thumb)
+            %h3
+              %a{:href => book_url(listbook.book)}
+                = h listbook.book.title
+            .author
+              = h listbook.book.author
+            - unless listbook.book.tags.empty?
+              .label
+                - for tag in listbook.book.tags
+                  = link_to tag.name, books_path(:tag => tag.name)
+      .clear
+
+    #abandoned
+      %ul.objects.books
+        - @abandoned_books.each do |listbook|
+          %li
+            .image
+              %a{:href => book_url(listbook.book)}
+                = image_tag listbook.book.photo.url(:thumb)
+            %h3
+              %a{:href => book_url(listbook.book)}
+                = h listbook.book.title
+            .author
+              = h listbook.book.author
+            - unless listbook.book.tags.empty?
+              .label
+                - for tag in listbook.book.tags
+                  = link_to tag.name, books_path(:tag => tag.name)
+      .clear
+
+  - else
+    %p= "You hadn't added any books to your book's list."
+    %p= "#{link_to 'Take a look at our library', books_path} and organize your books!"
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'books', :page => 'lists' }
+

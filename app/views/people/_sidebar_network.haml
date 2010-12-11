@@ -1,0 +1,39 @@
+%h3 Following
+- if person.followed.reject { |p| p.hidden }.empty?
+  - if person == current_user
+    %p You aren't following anyone yet!
+  - else
+    %p= "#{person.name} isn't following anyone yet."
+
+- else
+  %ul.tiny_squares
+    - person.followed.reject { |p| p.hidden }.shuffle[0, 12].each do |leader|
+      %li= link_to image_tag(leader.photo.url(:small)), person_url(leader), :title => leader.name 
+  - if person.followed.reject { |p| p.hidden }.size > 12
+    .see_all
+      = link_to 'See All', following_person_path(person)
+
+.clear
+
+%h3 Followers
+
+- if person.followers.reject { |p| p.hidden }.empty?
+  - if person == current_user
+    %p You don't have any followers yet!
+  - else
+    %p
+      = person.name
+      doesn't have any followers yet.
+      - if current_user and !current_user.follows?(@person)
+        = succeed '.' do
+          = link_to "Follow #{@person.name}", follow_person_path(@person), :method => :put
+
+- else
+  %ul.tiny_squares
+    - person.followers.reject { |p| p.hidden }.shuffle[0, 12].each do |leader|
+      %li= link_to image_tag(leader.photo.url(:small)), person_url(leader), :title => leader.name
+  - if person.followers.reject { |p| p.hidden }.size > 12
+    .see_all
+      = link_to 'See All', followers_person_path(person)
+
+.clear

@@ -1,0 +1,20 @@
+xml.instruct! :xml, :version => "1.0"
+xml.rss "version" => "2.0" do
+  xml.channel do
+    xml.title "Your TUP network updates"
+    xml.link url_for :only_path => false, :controller => 'profile', :action => 'updates'
+    xml.description "Your TUP network updates"
+    xml.language 'en-us'
+
+    @notifications.each do |n|
+      xml.item do
+        xml.title notification_title(n)
+        xml.description message_for_notification(n, false)
+        xml.author "#{n.from.email} (#{n.from.name})"
+        xml.pubDate n.created_at.rfc2822
+        #xml.link url_for :only_path => false, :controller => 'profile', :id => n.id
+        #xml.guid url_for :only_path => false, :controller => 'profile', :id => n.id
+      end
+    end
+  end
+end

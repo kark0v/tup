@@ -1,0 +1,62 @@
+- if (@bookbox == "Add")
+  %h2 
+    Add  
+    = @book.title
+    to My Lists
+
+  - form_remote_for @listbooks, :url => add_to_list_book_path, :html => { :method => :put, :class => 'frm' } do |f| 
+    = f.error_messages
+    = f.hidden_field :book_id, :value => @book.id
+    = f.hidden_field :person_id, :value => current_user.id
+
+    %p
+      %ul
+        %li
+          = f.radio_button :status, 1, :checked => true # "Finished"
+          Finished
+        %li
+          = f.radio_button :status, 2 # "Reading"
+          Reading
+        %li
+          = f.radio_button :status, 3 # "Reference"
+          Reference
+        %li
+          = f.radio_button :status, 4 # "Want to Read"
+          Want to Read
+        %li
+          = f.radio_button :status, 5 # "Abandoned"
+          Abandoned
+    %p
+      = f.submit 'Add Book'
+      = link_to 'Cancel', "#", :onclick => "facebox.close(); return false;"
+		
+- else
+  %h2 
+    Update  
+    = @book.title
+    on My Lists
+		
+  - form_remote_for @listbooks, :url => edit_list_book_path, :html => { :method => :put } do |f| 		
+    = f.error_messages
+    = f.hidden_field :book_id, :value => @book.id
+    = f.hidden_field :person_id, :value => current_user.id
+
+    %ul
+      %li
+        = f.radio_button :status, 1, :checked => true # "Finished"
+        Finished
+      %li
+        = f.radio_button :status, 2 # "Reading"
+        Reading
+      %li
+        = f.radio_button :status, 3 # "Reference"
+        Reference
+      %li
+        = f.radio_button :status, 4 # "Want to Read"
+        Want to Read
+      %li
+        = f.radio_button :status, 5 # "Abandoned"
+        Abandoned
+
+    = f.submit 'Update Book'
+    = link_to 'Cancel', "#", :onclick => "facebox.close(); return false;"

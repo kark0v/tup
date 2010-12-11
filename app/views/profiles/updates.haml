@@ -1,0 +1,44 @@
+- title 'My Profile :: My Network Updates'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Network Updates
+
+  - unless @notifications.empty?
+    %ul
+    - @notifications.each do |n|
+      %li
+        = message_for_notification(n)
+        %ul
+        - n.notificationconversations.each do |nc|
+          %li
+            %cite= "#{nc.person.name}, #{nc.created_at.strftime('%a %b %e, %r')}"
+            %blockquote= nc.message
+      %li
+        - form_for :notificationconversation, :url => comment_notification_path(n.id) do |f|
+          %p= f.label :message, "Make a comment"
+          %p= f.text_area :message, :size => "40x3"
+          %p= f.submit :Comment
+
+    = will_paginate @notifications
+  - else
+    - if current_user.followed.empty?
+      %p At this page is possible to see news about actions performed by other users.
+      %p To get informed about what people are doing #{link_to 'browse our members', people_path}, choose your friends and interesting people and follow them.
+    - else
+      %p There is no updates from your network.
+      %p That is a shame! #{link_to 'Browse our members', people_path} and follow more people.
+
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'network', :page => 'updates' }
+

@@ -1,0 +1,36 @@
+- title "Review"
+- section "reviews"
+
+.one-column
+  %p
+    %b Author:
+    %a{:href => person_url(@review.person), :title => @review.person.name }
+      =h @review.person.name
+  %p
+    %b Date:
+    =h @review.created_at
+  - if @review.website
+    %p
+      %b Website:
+      = link_to @review.website.name, website_path(@review.website)
+  - if @review.book
+    %p
+      %b Book:
+      = link_to @review.book.title, book_path(@review.book)
+  %p
+    %b Review:
+    %br
+    =h @review.body
+  %p
+    = link_to 'Edit', edit_review_path(@review)
+    = link_to 'Destroy', review_path(@review), :confirm => 'Are you sure?', :method => :delete
+
+  %p{ :id => "comments_count#{@review.id}" }
+    = pluralize(@review.comments.active.count, 'Comment')
+  %p  
+    = link_to_function 'Add Comment', "toggle_div_display(\"new_comment#{@review.id}\")"
+  = render :partial => 'comments/new', :locals => { :review => @review, :comment => @review.comments.build }  
+
+  - unless @review.comments.empty?
+    %div{:id => "show_comment#{@review.id}"}
+      = render :partial => 'comments/comment', :collection => @review.comments.active

@@ -1,0 +1,47 @@
+- title 'My Settings :: Privacy'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    Privacy Settings
+
+  %p
+    Control who can see information on your Profile page.
+
+  - form_remote_for @person.setting, :url => edit_settings_profile_path, :html => { :method => :put } do |f|
+    = f.error_messages
+
+    %p
+      = f.label :privacy_network, "My Network"
+      = f.select :privacy_network, { "Everyone" => 0, "Followers and Followings" => 1 }
+
+    %p
+      = f.label :privacy_endorsements, "My Endorsements"
+      = f.select :privacy_endorsements, { "Everyone" => 0, "Followers and Followings" => 1 }
+
+    %p
+      = f.label :privacy_websites, "My Websites"
+      = f.select :privacy_websites, { "Everyone" => 0, "Followers and Followings" => 1 }
+
+    %p
+      = f.label :privacy_books, "My Favorite Books"
+      = f.select :privacy_books, { "Everyone" => 0, "Followers and Followings" => 1 }
+
+    %p
+      = f.label :privacy_search, "Show profile on users list and search results?"
+      = f.select :privacy_search, { "Yes" => true, "No" => false }
+
+    %p
+      = f.submit 'Save Settings'
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'settings', :page => 'privacy' }
+

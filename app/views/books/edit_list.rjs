@@ -1,0 +1,5 @@
+page.replace_html :whatlist, :partial => 'books/add_to_list_manager' 
+page.replace_html "bookbox_#{@book.id}", :partial => 'books/add_to_list' 
+page.call 'facebox.close'
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard  

@@ -1,0 +1,62 @@
+- title 'Submit Job Proposal'
+- section 'jobs'
+
+= render :partial => 'subnavs/jobs'
+		
+- content_for :sidebar do 
+  - unless Job.recently_submited.empty?
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }
+  - unless Person.recruiters.empty?
+    = render :partial => 'recruiters', :layout => '/layouts/sidebox', :locals => { :title => 'Contact Recruiters' }
+		
+.one-column				
+  %h2.title 
+    Submit Job Proposal
+
+  - form_for(@job, :html => { :class => "frm"} ) do |f|
+    = f.error_messages
+
+    %p
+      = f.label :role, "Job Title"
+      = f.text_field :role, :class => 'required'
+      %span Enter the Job Title.
+    %p
+      = f.label :company, "Company Name"
+      = f.text_field :company, :class => 'required'
+      %span Enter the name of the Company that is recruiting.
+    %p	
+      = f.label :company_website, "Company Website"
+      = f.text_field :company_website, :class => 'validate-url'
+      %span Enter the URL of the Company's website.
+    %p
+      = f.label :location
+      = f.text_field :location, :class => 'required'
+      %span Please enter both the city and the country where the Company is settled.
+    %p
+      = f.label :type
+      = f.select("mode",  { "Full-time" => "Full-time", "Part-time" => "Part-time", "Per day" => "Per day" }, { :include_blank => false })
+      = f.select("duration",  { "Permanent" => "Permanent", "Temporary/Contract" => "Temporary/Contract", "Student Placement" => "Student Placement", "Seasonal" => "Seasonal" }, { :include_blank => false })
+    %p
+      = f.label :description, "About the Job"
+      %br
+      = f.text_area :description, :class => 'required'
+      %span Please describe this position (<1024 characters) - You can use #{link_to 'Textile syntax', 'http://textism.com/tools/textile/', :targed => "_blank"}
+    %p
+      = f.label :how_to_apply
+      %br
+      = f.text_area :howtoapply, :class => 'required'
+      %span Please describe how can the users apply to this Job (<1024 characters) - You can use #{link_to 'Textile syntax', 'http://textism.com/tools/textile/', :targed => "_blank"}
+    %p
+      = f.label :deadline_at, "Deadline"
+      = f.date_select(:deadline_at, :order => [:day, :month, :year], :default => 3.weeks.from_now)
+      %span Select the deadline for the applications.
+		
+    - if current_user and current_user.has_role? 'tup_member'
+      %p
+        = f.label :featured
+        = f.check_box :featured
+        %span Tick if this is a featured Job.
+    %p
+      = f.submit 'Create'
+      = link_to 'Cancel', jobs_path
+

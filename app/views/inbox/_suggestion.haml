@@ -1,0 +1,31 @@
+%div.suggestion{:id => "suggestion#{suggestion.id}"}
+  - if suggestion.job
+    %li{ suggestion.read ? { :class => "jobs suggestions", :style => "display: visible;" } : { :class => "jobs suggestions unseen", :style => "display: visible;" }}
+      Job Proposal
+      %a{:href => job_url(suggestion.job), :title => suggestion.job.role }
+        = suggestion.job.role
+        at
+        = suggestion.job.company
+      was suggested to you by
+      %a{:href => person_url(suggestion.suggester), :title => suggestion.suggester.name }
+        = suggestion.suggester.name
+      .seen	
+        - if suggestion.read == false
+          = link_to_remote 'Mark as seen', :update => 'suggestion#{suggestion.id}', :url => mark_sugg_as_seen_path(suggestion.id)
+        - else
+          = link_to_remote 'Mark as unseen', :update => 'suggestion#{suggestion.id}', :url => mark_sugg_as_unseen_path(suggestion.id)
+  - if suggestion.book
+    %li{ suggestion.read ? { :class => "books suggestions", :style => "display: visible;" } : { :class => "books suggestions unseen", :style => "display: visible;" } }
+      Book
+      %a{:href => book_url(suggestion.book), :title => suggestion.book.title }
+        = suggestion.book.title
+        by
+        = suggestion.book.author
+      was suggested to you by
+      %a{:href => person_url(suggestion.suggester), :title => suggestion.suggester.name }
+        = suggestion.suggester.name
+      .seen	
+        - if suggestion.read == false
+          = link_to_remote 'Mark as seen', :update => 'suggestion#{suggestion.id}', :url => mark_sugg_as_seen_path(suggestion.id)
+        - else
+          = link_to_remote 'Mark as unseen', :update => 'suggestion#{suggestion.id}', :url => mark_sugg_as_unseen_path(suggestion.id)

@@ -1,0 +1,7 @@
+%ul
+  - @job.similar(3).each do |similar_job|
+    %li
+      %a{:href => job_url(similar_job), :title => similar_job.role }
+        = similar_job.role
+      at 
+      = similar_job.company

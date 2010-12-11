@@ -1,0 +1,20 @@
+%div{ :id => "reportbox_#{element.class.class_name.downcase}_#{element.id}",:style => 'display: none;'}
+  %h2 
+    Report 
+    = element.class.class_name
+  %p
+    Please, describe why this 
+    = element.class.class_name.downcase
+    should be removed from The Usability Page:
+
+  - form_remote_for @report do |f| 
+    = f.error_messages
+    = f.hidden_field "#{element.class.class_name.downcase}_id", :value => element.id
+    = f.hidden_field :reporter_id, :value => current_user.id
+    = f.text_area :reasons
+    %span
+      Don't be mean! For valid reasons to report, visit our
+      = link_to 'Frequent Asked Questions', faq_path
+    %p
+      = f.submit 'Send'
+      = link_to 'Cancel', "#", :onclick => "facebox.close(); return false;"

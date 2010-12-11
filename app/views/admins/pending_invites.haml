@@ -1,0 +1,25 @@
+- title 'Administration :: Pending Invites'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  %h2.title
+    Pending invites
+  
+  - if @invites.empty?
+    %p There are no pending invites.
+  
+  - else
+    %table
+      %thead
+        %tr
+          %th Email
+          %th Date Requested
+          %th Accept
+      %tbody    
+      - @invites.each do |i|
+        %tr
+          %td= i.email
+          %td= i.created_at.strftime('%b %e, %r')
+          %td= link_to 'Give invite', :action => :give_invite, :id => i.id

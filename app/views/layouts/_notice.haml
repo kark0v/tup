@@ -1,0 +1,7 @@
+#notice_message
+  = flash[:notice]
+  #notice_close
+    = image_tag("/images/notice_close.png", :onclick => "hide_notice();")
+- if flash[:notice] 
+  :javascript
+    show_notice();

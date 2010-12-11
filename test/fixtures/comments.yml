@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  Person: 1
+  Review: 1
+  body: MyText
+
+two:
+  Person: 1
+  Review: 1
+  body: MyText

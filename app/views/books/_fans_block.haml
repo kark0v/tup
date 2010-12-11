@@ -1,0 +1,6 @@
+%ul.tiny_squares
+  - @book.fans(10).each do |person|
+    %li
+      %a{:href => person_url(person), :title => person.name }
+        = image_tag person.photo.url(:small)
+.clear

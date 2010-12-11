@@ -1,0 +1,5 @@
+page.replace_html "comments_count#{@review.id}", "#{pluralize(@review.comments.active.count, 'Comment')} #{link_to_function 'Hide', "show_hide_comments(this, #{@review.id})"} #{link_to_function 'Comment', "new_review_comment(this, #{@review.id})"}"
+page.visual_effect(:fade, "comment#{@comment.id}", :duration => 0.5)
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard
+

@@ -1,0 +1,69 @@
+- title "#{@page.capitalize} Websites"
+- section 'websites'
+
+= render :partial => 'subnavs/websites'
+
+- content_for :sidebar do
+  - unless Website.active.first.nil?
+    - unless @tags.empty?
+      = render :partial => 'tag_cloud', :layout => '/layouts/sidebox', :locals => { :title => 'Tag Cloud' }
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }
+
+.one-column		
+  %h2.title
+    = h @page.capitalize
+    Websites
+	
+  %div.actions 	
+    %ul.user_actions
+      %li= link_to 'All', websites_path
+      %li= link_to 'Featured', websites_path(:type => "featured")
+      %li= link_to 'Latest Submissions', websites_path(:type => "latest")
+
+			
+  - unless @page_header_line.nil?
+    %p
+      = @page_header_line
+      - if @websites.empty?
+        - if params[:search].nil?
+          = search_form 'by name', websites_path, 'Websites', false
+        - else
+          = search_form params[:search], websites_path, 'Websites', false
+
+  - unless @websites.empty?
+    %ul.websites.objects
+      - @websites.each do |website|
+        %li{website.featured ? { :class => "featured" } : {} }
+          .website_block
+            %h3
+              %a{:href => website_url(website)}
+                = h website.name
+            .by
+              by
+              %a{:href => person_url(website.person)}
+                = h website.person.name
+            .image
+              %a{:href => website_url(website)}
+                - if website.screenshots.empty?
+                  = image_tag('/images/default_website_s.png')
+                - else
+                  = image_tag website.screenshots.first.photo.url(:thumb)
+            .label
+              - for tag in website.tags
+                = link_to tag.name, websites_path(:tag => tag.name)
+    .clear
+					
+    = will_paginate @websites
+  - else
+    - if @page_header_line.nil?
+      %p 
+        There are no #{params[:type]} websites around here!
+      %p 
+        Do you have a website to show or to be reviewed? What are you waiting for?
+      %p
+        = link_to 'Submit a Website!', new_website_path
+
+
+
+
+

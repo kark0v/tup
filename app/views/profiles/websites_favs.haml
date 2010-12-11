@@ -1,0 +1,45 @@
+- title 'My Profile :: My Favorite Websites'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Favorite Websites
+
+  - if @websites.empty?
+    %p= "You hadn't marked any website as favorite yet."
+    %p= link_to "Go Browse Now!", websites_path
+  - else
+    %ul.objects.websites
+      - @websites.each do |website|
+        %li
+          .website_block
+            %h3
+              %a{:href => website_url(website)}
+                = h website.name
+            .by
+              by
+              %a{:href => person_url(website.person)}
+                = h website.person.name
+            .image
+              %a{:href => website_url(website)}
+                - if website.screenshots.empty?
+                  = image_tag('/images/default_website_s.png')
+                - else
+                  = image_tag website.screenshots.first.photo.url(:thumb)
+            .label
+              - for tag in website.tags
+                = link_to tag.name, websites_path(:tag => tag.name)
+    .clear
+    = will_paginate @websites
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'websites', :page => 'favs' }
+

@@ -1,0 +1,32 @@
+- title 'Administration :: Endorsements'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+%ul.logs
+  - @logs.each do |arr|
+    - day, logs = arr.first, arr.last
+    %li
+      = day
+      %ul
+        - logs.each do |log|
+          - case log.class.to_s
+            - when "Review"
+              - if log.reviewed_object
+                %li
+                  = link_to log.person.name, person_path(log.person)
+                  = link_to 'reviewed', eval("#{log.reviewed_object.class.to_s.downcase}_reviews_path(#{log.reviewed_object.id})")
+                  a
+                  = content_tag 'span', log.reviewed_object.class.to_s.downcase, :class => 'type'
+                  (
+                  = link_to log.reviewed_object.log_name, eval("#{log.reviewed_object.class.to_s.downcase}_path(#{log.reviewed_object.id})")
+                  )
+            - else
+              %li
+                = link_to log.person.name, person_path(log.person)
+                added a
+                = content_tag 'span', log.class.to_s.downcase, :class => 'type'
+                = link_to log.log_name, eval("#{log.class.to_s.downcase}_path(#{log.id})")
+        
+- content_for :extra_css do
+  = stylesheet_link_tag 'admin'

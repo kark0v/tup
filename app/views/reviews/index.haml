@@ -1,0 +1,20 @@
+- title "Reviews"
+- section "reviews"
+
+.one-column
+  %table
+    %tr
+      %th Author
+      %th Website
+      %th Review
+    - @reviews.each do |review|
+      %tr
+        %td=h review.person
+        %td=h review.website
+        %td=h review.body
+        %td= link_to 'Show', review
+        %td= link_to 'Edit', edit_review_path(review)
+        %td= link_to 'Destroy', review, :confirm => 'Are you sure?', :method => :delete
+
+  //= link_to 'New Review', new_review_path
+

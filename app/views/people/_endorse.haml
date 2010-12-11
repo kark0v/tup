@@ -1,0 +1,9 @@
+#endorsebox{:style => 'display: none'}
+  %h2= "Endorse #{@person.name}"
+
+  - form_for Endorsement.new do |f|
+    = f.error_messages
+    = f.hidden_field :endorsee_id, :value => @person.id
+    = f.text_area :body
+    = f.submit 'Send'
+    = link_to 'Cancel', "#", :onclick => "facebox.close(); return false;"

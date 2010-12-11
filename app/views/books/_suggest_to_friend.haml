@@ -1,0 +1,7 @@
+- remote_form_for(@suggestion, :html => {:id => 'suggestion_form', :class => 'validate'}) do |f|
+  = f.hidden_field :book_id, :value => @book.id
+  = f.hidden_field :suggester_id, :value => current_user.id
+  = belongs_to_auto_completer :suggestion, :person, :name, { :submit_on_return => true }, { :class => 'required' }, { }
+  = f.submit 'Send'
+%p
+  Type contact's name or use an email address if your friend isn't part of The Usability Page community yet.

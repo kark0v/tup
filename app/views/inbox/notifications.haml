@@ -1,0 +1,31 @@
+- title 'Notifications'
+- section 'inbox'
+
+- content_for :sub_nav do
+  %ul
+    /%li= link_to 'Conversations', conversations_path
+    %li= link_to 'Notifications', notifications_inbox_path
+    %li= link_to 'Suggestions', suggestions_inbox_path
+
+.one-column		
+  %h2.title
+    Notifications
+
+  - if @notifications.empty?
+    %p= "You have no notifications so far. Go around and be active!"
+  - else
+    %div.actions
+      %ul.user_actions
+        %li Filters:
+        %li= link_to_function 'All', "return false;"
+        %li= link_to_function 'Unseen', "return false;"
+        %li= link_to_function 'Network', "return false;"
+        %li= link_to_function 'Websites', "return false;"
+        %li= link_to_function 'Jobs', "return false;"
+        %li= link_to_function 'Books', "return false;"
+
+    %ul.notifications
+      - @notifications.each do |n|
+        %li= message_for_notification(n)
+
+    = will_paginate @notifications

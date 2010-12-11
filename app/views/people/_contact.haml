@@ -1,0 +1,20 @@
+%div{ :id => "sendmessage_box", :style => 'display: none;'}
+  %h2.title
+    Start a Conversation with #{element.name}
+
+  - form_for(:conversation, :url => { :controller => 'conversations', :action => 'create' }, :html => { :id => "frm", :method => 'post' } ) do |f|
+
+    %p
+      = f.label :title, 'Subject'
+      = f.text_field :title
+      = f.hidden_field :person_id, :value => @person.id
+
+    - fields_for 'message' do |m|
+      %p
+        = m.hidden_field :person_id, :value => current_user.id
+        = m.label :body, "Body"
+        = m.text_area :body
+
+    %p
+      = f.submit 'Send message'
+      = link_to 'Cancel', "#", :onclick => "facebox.close(); return false;"

@@ -1,0 +1,17 @@
+- content_for :title, 'Frequent Asked Questions'
+- content_for :section, 'misc'
+
+- content_for :sub_nav do 
+  = render :partial => 'subnav_misc' 
+		
+- content_for :sidebar do     
+  = render :partial => 'more_questions', :layout => '/layouts/sidebox', :locals => { :title => 'More Questions?' } 
+
+.one-column			
+  %h2.title
+    Frequent Asked Questions
+		
+  %p
+    There is no frequent asked questions' page yet, so please ask your questions 
+    = link_to 'here.', contactus_path
+    In our nice contact form!

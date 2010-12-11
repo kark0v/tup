@@ -1,0 +1,63 @@
+- title "Edit Website :: #{@website.name}"
+- section 'Websites'
+
+= render :partial => 'subnavs/websites'
+
+- content_for :sidebar do 
+  - unless Website.active.first.nil?
+    - unless @tags.empty? 
+      = render :partial => 'tag_cloud', :layout => '/layouts/sidebox', :locals => { :title => 'Tag Cloud' }
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }
+
+.one-column				      
+  %h2.title 
+    Edit Website
+
+  %div.actions
+    %ul.user_actions
+      %li= link_to 'Back to Website', website_path(@website)
+									      
+  - form_for(@website,:html => { :multipart => true , :class => "frm"}) do |f|
+    = f.error_messages
+
+    %p
+      = f.label :name
+      = f.text_field :name, :class => 'required'
+      %span
+        Please provide the website title.
+    %p
+      = f.label :url
+      - if current_user and current_user.has_role? 'tup_member'
+        = f.text_field :url, :class => 'required validate-url'
+      - else
+        = f.text_field :url, :disabled => true, :class => 'required validate-url'
+    %p
+      = f.label :description
+      = f.text_area :description
+      %span
+        Briefly describe the website (<500 words) - You can use #{link_to 'Textile syntax', 'http://textism.com/tools/textile/', :target => "_blank"}
+      
+    - if current_user and current_user.has_role? 'tup_member'
+      %p
+        = f.label :featured
+        = f.check_box :featured
+        %span Tick if this is a featured website.
+    %p
+      = f.label :tag_list
+      = text_field_with_auto_complete :website, :tag_list, { :size => 40 }, { :url => formatted_tags_path(:js), :method => :get, :tokens => ','  }
+      %span Please enter a list of meaningful tags that can help users identifying the subject of the website.
+      /= f.text_field :tag_list
+    %br
+  
+    #existing
+      = render :partial => 'screenshot_edit', :collection => @website.screenshots
+    
+    #screenshots
+    /= render :partial => 'screenshot', :collection => @website.screenshots
+    = add_screenshot_link "Add a screenshot"
+    %span Insert screenshot(s) of the website.
+    
+    %p
+      = f.submit 'Update'
+      = link_to 'Cancel', website_path(@website)
+

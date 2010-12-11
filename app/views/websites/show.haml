@@ -1,0 +1,95 @@
+- title "Website :: #{@website.name}"
+- section 'Websites'
+
+= render :partial => 'subnavs/websites'
+
+- content_for :sidebar do 
+  - unless Website.active.first.nil?
+    - unless @tags.empty? 
+      = render :partial => 'tag_cloud', :layout => '/layouts/sidebox', :locals => { :title => 'Tag Cloud' }
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }
+    - unless @website.samesubmitter.empty?  
+      = render :partial => 'same_submitter', :layout => '/layouts/sidebox', :locals => { :title => "Other Websites by #{@website.person.name}" }
+  %div{ :id => 'fans_block' }
+    = render :partial => 'websites/fans_block', :layout => '/layouts/sidebox', :locals => { :title => 'Favorite Website of' }		
+
+.one-column				
+  %h2.title 
+    =h @website.name
+
+  %div.actions 	
+    - if current_user and current_user.has_role? 'tup_member'
+      %ul.admin_actions
+        %li= link_to 'Remove', website_path(@website), :confirm => 'Are you sure?', :method => :delete
+        %li= link_to 'Edit', edit_website_path(@website)				
+        - if @website.featured
+          %li= link_to 'Unfeature', unfeature_website_path(@website), :method => :put
+        - else
+          %li= link_to 'Feature', feature_website_path(@website), :method => :put
+
+    %ul.user_actions
+      - if current_user == @website.person
+        %li= link_to 'Edit', edit_website_path(@website)	
+			
+      - if current_user
+        %li{current_user.website_favs?(@website) ? { :id => 'link_unfav', :style => "display: block;" } : { :id => 'link_unfav', :style => "display: none;"} }
+          = link_to_remote "Unmark as Favorite", :url => unfav_website_url(:id => @website.id), :method => :unfav
+        %li{!current_user.website_favs?(@website) ? { :id => 'link_fav', :style => "display: block;" } : { :id => 'link_fav', :style => "display: none;"} }
+          = link_to_remote "Mark as Favorite", :url => fav_website_url(:id => @website.id), :method => :fav
+        %li= link_to 'Report', "#reportbox_website_#{@website.id}", :rel => "facebox"
+      - else
+        %li= link_to 'Mark as Favorite', "#loginbox_website_#{@website.id}", :rel => "facebox"	
+        %li= link_to 'Report', "#loginbox_website_#{@website.id}", :rel => "facebox"	
+
+  .object_image{ :id => 'website' }
+    - if @website.screenshots.empty?
+      %a{:href => @website.url, :target => :new}
+        = image_tag('/images/default_website_f.png')
+    - else
+      %a{:href => @website.url, :target => :new}
+        = image_tag @website.screenshots.first.photo.url(:full)
+
+  .object_info{ :id => 'website' }
+    .line
+      .label
+        Visit the website:
+      = link_to @website.url, @website.url, :target => :new
+
+    .line
+      .label
+        Submitted by:
+      - if @website.person.is_tup?
+        = h @website.person.name
+      - else
+        %a{:href => person_url(@website.person)}
+          = h @website.person.name
+						
+    - unless @website.tag_list.nil?
+      .tags	
+        - for tag in @website.tags
+          = link_to tag.name, websites_path(:tag => tag.name)
+										
+  = render :partial => 'rating/rate', :locals => { :asset => @website }
+
+  - if @website.description.present?
+    %h2.subtitle 
+      Description
+
+    = RedCloth.new(@website.description).to_html
+	
+  %h2.subtitle 
+    Reviews
+
+  %p{ :id => 'reviews_count'}
+    = render :partial => 'reviews/reviews_count', :locals => { :element => @website }  
+
+  = render :partial => 'reviews/new', :locals => { :element => @website, :review => @website.reviews.build }  
+
+  #show_review
+    - unless @website.reviews.active.empty?
+      = render :partial => 'reviews/review', :collection => @website.reviews.active.sort_by { |r| r.votes_result }.reverse
+
+  - if current_user
+    = report_box @website
+  - else
+    = login_box @website  	

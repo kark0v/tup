@@ -1,0 +1,133 @@
+- title 'Administration :: Report'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  - if @type == 'job'
+    %h2.title  
+      Job Proposal Report
+    %p
+      %a{:href => job_url(@report.job)}  
+        = h @report.job.role
+        at
+        = h @report.job.company
+    %li= link_to "Remove Job", job_url(@report.job), :method => :delete
+			
+  - if @type == 'person'
+    %h2.title
+      User Report
+    %p
+      %a{:href => person_url(@report.person)}  
+        = h @report.person.name
+			
+  - if @type == 'book'
+    %h2.title 
+      Book Report
+    %p
+      %a{:href => book_url(@report.book)}  
+        = h @report.book.title
+        by
+        = h @report.book.author
+			
+  - if @type == 'website'
+    %h2.title 
+      Website Report
+    %p
+      %a{:href => website_url(@report.website)}  
+        = h @report.website.name
+			
+  - if @type == 'review'
+    %h2.title 
+      Review Report
+    %p
+      Review
+      %a{:href => review_url(@report.review)}
+        = h @report.review.id
+      - if @report.review.website
+        on website
+        %a{:href => website_url(@report.review.website)}
+          = h @report.review.website.name
+      - else
+        on book
+        %a{:href => book_url(@report.review.book)}
+          = h @report.review.book.title
+    %h3
+      Review Content
+    %p
+      = h @report.review.body
+			
+  - if @type == 'comment'
+    %h2.title 
+      Comment Report
+    %p
+      Comment
+      %a{:href => comment_url(@report.comment)}
+        = h @report.comment.id
+      on Review
+      %a{:href => review_url(@report.comment.review)}
+        = h @report.comment.review.id
+      - if @report.comment.review.website
+        on website
+        %a{:href => website_url(@report.comment.review.website)}
+          = h @report.comment.review.website.name
+      - else
+        on book
+        %a{:href => book_url(@report.comment.review.book)}
+          = h @report.comment.review.book.title
+    %h3
+      Comment Content
+    %p
+      = h @report.comment.body
+		
+  - if @type == 'SPAM'
+    %h2.title 
+      SPAM Report
+    %p
+      Message
+      = @report.message_id
+      by
+      %a{:href => person_url(@report.message.person)}
+        = h @report.message.person.name
+      on Conversation
+      %a{:href => conversation_url(@report.message.conversation)}
+        = h @report.message.conversation.title
+			
+  %h3
+    Reasons to Report
+  %p	
+    = in_place_editor_field :report, 'reasons'
+
+  %p
+    %strong Status
+    = h @report.status
+
+  %div.submittedby
+    %div.title
+      Reported by   
+    %div.photo
+      %a{:href => person_url(@report.reporter)}
+        = image_tag @report.reporter.photo.url(:thumb)
+    %div.data
+      %ul
+        %li
+          %a{:href => person_url(@report.reporter)}
+            = h @report.reporter.name
+        %li
+          = h @report.reporter.professional_headline
+	
+  %h2 
+    What are you going to do about that?
+
+  %ul
+    - if current_user != @report.reporter
+      %li= link_to 'Reply to Reporter', reply_report_conversation_path(@report), :method => :put
+    %li
+      Set Status to:
+      = link_to "New", set_status_report_path(@report, :value => 'New'), :method => :put
+      = link_to "In Progress", set_status_report_path(@report, :value => 'In Progress'), :method => :put
+      = link_to "Ignored", set_status_report_path(@report, :value => 'Ignored'), :method => :put
+      = link_to "Completed", set_status_report_path(@report, :value => 'Completed'), :method => :put
+    %li= link_to "Remove Report", report_url(@report), :method => :delete
+
+

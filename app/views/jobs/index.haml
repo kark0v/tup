@@ -1,0 +1,53 @@
+- title "#{@page.capitalize} Jobs"
+- section 'jobs'
+
+= render :partial => 'subnavs/jobs'
+		
+- content_for :sidebar do 
+  - unless Job.recently_submited.empty?
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }
+  - unless Person.recruiters.empty?
+    = render :partial => 'recruiters', :layout => '/layouts/sidebox', :locals => { :title => 'Contact Recruiters' }
+
+.one-column		
+  %h2.title 
+    Get a Job!
+
+  %div.actions   
+    %ul.user_actions
+      %li= link_to 'Open Proposals', jobs_path
+      %li= link_to 'Featured', jobs_path(:type => "featured")
+      %li= link_to 'Latest', jobs_path(:type => "latest")
+      %li= link_to 'Archive', jobs_path(:type => "closed")
+				  
+  - unless @page_header_line.nil?
+    %p
+      = @page_header_line
+      - if @jobs.empty?
+        - if params[:search].nil?
+          = search_form 'by role or company', jobs_path, 'Jobs', false
+        - else
+          = search_form params[:search], jobs_path, 'Jobs', false
+
+  - unless @jobs.empty?		
+    %ul.jobs
+      - @jobs.each do |job|
+        %li{job.featured ? { :class => "featured" } : {} }
+          .date.particle
+            = h job.deadline_at.strftime("%b #{job.deadline_at.day.ordinalize}, %Y")
+          %a{:href => job_url(job)}
+            = h job.role
+          %span.particle at
+          = h job.company
+          %span.particle in 
+          = h job.location
+
+    = will_paginate @jobs				
+  - else
+    - if @page_header_line.nil?
+      %p There are no #{params[:type]} Job Proposals.
+      %p 
+        If you need a top employee, don't think twice! 
+        = link_to 'Submit a Job Proposal!', new_job_path
+      %p
+        We are sure that one of our community members will match your requirements and needs.

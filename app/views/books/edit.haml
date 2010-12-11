@@ -1,0 +1,82 @@
+- title "Edit Book :: #{@book.title}"
+- section 'books'
+
+= render :partial => 'subnavs/books'
+      
+- content_for :sidebar do     
+  - unless Book.tag_counts.empty? 
+    = render :partial => 'tag_cloud', :layout => '/layouts/sidebox', :locals => { :title => 'Books Cloud' } 
+  - unless Book.recently_submited.empty?
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }    
+
+.one-column	
+  %h2.title 
+    Edit
+    = @book.title  
+ 
+  %div.actions
+    %ul.user_actions
+      %li= link_to 'Back to Book', book_path(@book)
+			     
+  - form_for(@book , :html => { :multipart => true, :class => "frm" }) do |f|
+    = f.error_messages
+
+    %p
+      = f.label :title 
+      = f.text_field :title, :class => 'required'
+      %span Enter the title of the book as you know it.
+    %p
+      = f.label :author
+      = f.text_field :author, :class => 'required'
+      %span If there is more than one author, separate their names with commas.
+    %p
+      = f.label :isbn, "ISBN-13"
+      = f.text_field :isbn
+      %span Enter the book's "International Standard Book Number". (ISBN-13)
+    %p
+      = f.label :isbn_10, "ISBN-10"
+      = f.text_field :isbn_10
+      %span Enter the book's "International Standard Book Number". (ISBN-10)
+    %p
+      = f.label :description
+      = f.text_area :description
+      %span Enter the books description (~ 500 character) - You can use #{link_to 'Textile syntax', 'http://textism.com/tools/textile/'}
+    %p
+      = f.label :year_at, "Year"
+      = f.date_select(:year_at, :discard_month => true, :discard_day => true, :end_year => Time.now.year, :start_year => Time.now.year - 25)
+      %span Select the year in which the book was published.
+    %p
+      = f.label :language
+      = f.text_field :language
+      %span Is the book writen in English? Portuguese? French?...
+    %p
+      = f.label :publisher
+      = f.text_field :publisher
+      %span Which company published this book.
+    %p
+      = f.label :publisher_website
+      = f.text_field :publisher_website, :class => 'validate-url'
+      %span Which company published this book.
+    %p
+      = f.label :amazon, "Amazon URL"
+      = f.text_field :amazon, :class => 'required validate-url'
+      %span Please enter the URL to the Amazon page where people can find this book.
+    
+    - if current_user and current_user.has_role? 'tup_member'
+      %p
+        = f.label :featured
+        = f.check_box :featured
+        %span Tick if this is a featured book.
+    %p
+      = f.label :tag_list 
+      = text_field_with_auto_complete :book, :tag_list, { :size => 40 }, { :url => formatted_tags_path(:js), :method => :get,  :tokens => ',' }
+      %span Please enter a list of meaningful tags that can help users identifying the subject of the book.
+      /= belongs_to_auto_completer :book, :tag_taggings, :name, { :submit_on_return => true, :url => formatted_tags_path(:js) }, {}, { :method => :get, :param_name => 'search', :tokens => ',' }
+      /= f.text_field :tag_list
+  
+    %p= f.file_field :photo
+    %span Insert an image of the cover of the book.
+    
+    %p
+      = f.submit 'Update'
+      = link_to 'Cancel', book_path(@book)

@@ -1,0 +1,42 @@
+- title 'My Profile :: My Book Requests'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Books Requests
+    %a{ :href => new_book_path, :class => 'add_btn' }
+      = image_submit_tag '/images/btn_add_book2.jpg', :class => 'button', :id => 'postBook'
+
+  - if @books.empty?
+    %p= "You hadn't requested any book yet."
+    %p= "If you can't find a book you like on our library #{link_to "request a new Book", new_book_path}!"
+  - else
+    %ul.books.objects
+      - @books.each do |book|
+        %li
+          .image
+            %a{:href => book_url(book)}
+              = image_tag book.photo.url
+          %h3
+            %a{:href => book_url(book)}
+              = h book.title
+          .author
+            = h book.author
+          - unless book.tags.empty?
+            .label
+              - for tag in book.tags
+                = link_to tag.name, books_path(:tag => tag.name)
+    .clear
+    = will_paginate @books
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'books', :page => 'submissions' }
+

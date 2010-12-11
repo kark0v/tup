@@ -1,0 +1,9 @@
+page.insert_html :bottom, :show_review, :partial=> 'review', :object => @review
+page[:review_form].reset
+page.replace_html :reviews_count, :partial => 'reviews/reviews_count', :locals => { :element => (@website||@book) }  
+page << "toggle_div_display('new_review')"
+page.replace_html :show_review, :partial => 'reviews/review', :collection => (@website||@book).reviews.active.sort_by { |r| r.votes_result }.reverse
+page.visual_effect :scroll_to, "review#{@review.id}"
+page.visual_effect :highlight, "review#{@review.id}", :duration => 3
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard

@@ -1,0 +1,5 @@
+page[:link_removetolist].hide
+page[:link_addtolist].show
+page.replace_html "bookbox_#{@book.id}", :partial => 'books/add_to_list' 
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard  

@@ -1,0 +1,16 @@
+- title 'Administration :: Books for Review'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  %h2.title
+    All Books pending for review
+
+  - if @books.empty?
+    There are no books pending for review in The Usability Page
+  - else
+    %ul
+    - @books.each do |book|
+      %li= link_to book.title, :action => 'review_book', :id => book.id
+

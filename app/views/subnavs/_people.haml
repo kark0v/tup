@@ -1,0 +1,7 @@
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'Browse', people_path
+    %li= link_to 'Newbies', newbies_people_path
+    - if current_user
+      %li= link_to 'My Followers', followers_person_path(current_user)
+      %li= link_to 'My Followings', following_person_path(current_user)

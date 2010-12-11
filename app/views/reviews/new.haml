@@ -1,0 +1,13 @@
+- title "Submit Review"
+- section "reviews"
+
+.one-column
+  - form_for([@website, @review]), :class => 'frm' do |f|
+    = f.error_messages
+    %p
+      = f.label :body
+      %br
+      = f.text_area :body, :class => 'required'
+      %span You can use #{link_to 'Textile syntax', 'http://textism.com/tools/textile/', :target => "_blank"}
+    %p
+      = f.submit 'Create'

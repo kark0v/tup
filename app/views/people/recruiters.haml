@@ -1,0 +1,34 @@
+- title 'Recruiters'
+- section 'jobs'
+
+= render :partial => 'subnavs/jobs'
+
+- content_for :sidebar do     
+  = render :partial => 'recently_joined', :layout => '/layouts/sidebox', :locals => { :title => 'Who is joining?' }
+
+.one-column				
+  %h2.title
+    Recruiters
+
+  - unless @people.empty?		
+    %table
+      - @people.sort_by(&:name).each do |person|
+        %tr
+          %td
+            %a{:href => person_url(person)}
+              = image_tag person.photo.url(:thumb)
+              = h person.name
+          %td
+            %ul			
+              - person.jobs.active.each do |job|
+                %li
+                  %a{:href => job_url(job)}
+                    = h "#{job.role} for #{job.company} at #{job.location}"
+					
+    = will_paginate @people
+  - else
+    %p There are no recruiters, but you can become one!
+    %p 
+      If you need a top employee, don't think twice! 
+      = link_to 'Submit a Job Proposal!', new_job_path		
+							

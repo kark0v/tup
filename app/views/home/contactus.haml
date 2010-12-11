@@ -1,0 +1,34 @@
+- content_for :title, 'Contact Us'
+- content_for :section, 'misc'
+
+- content_for :sub_nav do 
+  = render :partial => 'subnav_misc' 
+		
+- content_for :sidebar do     
+  = render :partial => 'contactus_sidebox', :layout => '/layouts/sidebox', :locals => { :title => 'Social Networking' } 
+
+.one-column			
+  %h2.title
+    Contact Us
+
+  %div.bodyleft
+    = form_tag sendmail_path, :class => 'frm'
+
+    %p
+      =label_tag :from, 'Your email'
+      =text_field_tag :from, @person.email, :class => 'required validate-email'
+      %span Write your e-mail so that we can get back to you. 
+
+    %p
+      =label_tag :subject, 'Subject'
+      =text_field_tag :subject, nil, :class => 'required'
+      %span Why are you contacting us? Help us sort through our messages!
+
+    %p
+      =label_tag :body, 'Your message'
+      =text_area_tag :body, nil, :class => 'required'
+      %span Ask questions, make comments, make suggestions, write what you want!
+
+    %p
+      =submit_tag :Send
+

@@ -1,0 +1,15 @@
+- if @website.fans.size != 0
+  %ul.tiny_squares
+    - @website.fans(10).each do |person|
+      %li
+        %a{:href => person_url(person), :title => person.name }
+          = image_tag person.photo.url(:small)
+  .clear
+- else
+  %p 
+    Zero fans! Be the first to
+    - if current_user
+      = link_to_remote "Mark it as Favorite!", :url => fav_website_url(:id => @website.id), :method => :fav
+    - else
+      = link_to 'Mark it as Favorite!', "#loginbox_website_#{@website.id}", :rel => "facebox"	
+							

@@ -1,0 +1,31 @@
+- title 'Suggestions'
+- section 'inbox'
+
+- content_for :sub_nav do 
+  %ul
+    /%li= link_to 'Conversations', conversations_path
+    %li= link_to 'Notifications', notifications_inbox_path
+    %li= link_to 'Suggestions', suggestions_inbox_path
+
+.one-column				
+  %h2.title
+    Suggestions
+
+  - if current_user.suggestions.empty?
+    %p= "You have no suggestions so far. Go around and be social!"
+  - else
+    %div.actions 	
+      %ul.user_actions
+        %li Filters:
+        %li= link_to_function 'All', "inbox_filter('all'); return false;"	
+        %li= link_to_function 'Unseen', "inbox_filter('unseen'); return false;"
+        %li= link_to_function 'People', "inbox_filter('people'); return false;"	
+        %li= link_to_function 'Websites', "inbox_filter('websites'); return false;"	
+        %li= link_to_function 'Jobs', "inbox_filter('jobs'); return false;"	
+        %li= link_to_function 'Books', "inbox_filter('books'); return false;"	
+
+    %ul.suggestions
+      - @suggestions.each do |suggestion|
+        = render :partial => 'inbox/suggestion', :locals => { :suggestion => suggestion }
+				
+    = will_paginate @suggestions

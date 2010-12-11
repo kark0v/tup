@@ -1,0 +1,18 @@
+- title "Reviews"
+- section "comments"
+
+%table
+  %tr
+    %th Author
+    %th Website
+    %th Review
+  - @comments.each do |comment|
+    %tr
+      %td= h.comment.person
+      %td= h.comment.website
+      %td= h.comment.body
+      %td= link_to 'Show', comment
+      %td= link_to 'Edit', edit_comment_path(comment)
+      %td= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete
+
+//= link_to 'New Review', new_comment_path

@@ -1,0 +1,58 @@
+- title "#{@page.capitalize} Books"
+- section 'books'
+
+= render :partial => 'subnavs/books'
+
+- content_for :sidebar do
+  - unless Book.tag_counts.empty?
+    = render :partial => 'tag_cloud', :layout => '/layouts/sidebox', :locals => { :title => 'Books Cloud' }
+  - unless Book.recently_submited.empty?
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }
+  - unless Review.books_recently_reviewed.empty?
+    = render :partial => 'recently_reviewed', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Reviewed' }
+
+.one-column	
+  %h2.title 
+    = h @page.capitalize
+    our Books
+
+  %div.actions 	
+    %ul.user_actions
+      %li= link_to 'All', books_path
+      %li= link_to 'Featured', books_path(:type => "featured")
+      %li= link_to 'Latest Submissions', books_path(:type => "latest")
+		
+  - unless @page_header_line.nil?
+    %p
+      = @page_header_line
+      - if @books.empty?
+        - if params[:search].nil?
+          = search_form 'by title', websites_path, 'Books', false
+        - else
+          = search_form params[:search], websites_path, 'Books', false
+
+  - unless @books.empty?
+    %ul.books.objects
+      - @books.each do |book|
+        %li
+          .image
+            %a{:href => book_url(book)}
+              = image_tag book.photo.url(:thumb)
+          %h3
+            %a{:href => book_url(book)}
+              = h book.title
+          .author
+            = h book.author
+          - unless book.tags.empty?
+            .label
+              - for tag in book.tags
+                = link_to tag.name, books_path(:tag => tag.name)
+    .clear
+					
+    = will_paginate @books
+  - else
+    - if @page_header_line.nil?
+      %p There are no #{params[:type]} Books on our online Library.
+      %p= link_to 'Add Books and share your knowledge!', new_book_path
+
+

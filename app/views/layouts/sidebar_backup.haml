@@ -1,0 +1,23 @@
+#sidebar
+	- if params[:search].nil?
+		= search_form 'by title or author', books_path, 'Books'
+	- else
+		= search_form params[:search], books_path, 'Books'
+		
+#sidebar
+	- if params[:search].nil?
+		= search_form 'by role or company', jobs_path, 'Jobs'
+	- else
+		= search_form params[:search], jobs_path, 'Jobs'
+		
+#sidebar
+	- if params[:search].nil?
+		= search_form 'by name', people_path, 'People'
+	- else
+		= search_form params[:search], people_path, 'People'
+		
+#sidebar
+  - if params[:search].nil?
+    = search_form 'by name', websites_path, 'Websites'
+  - else
+    = search_form params[:search], websites_path, 'Websites'

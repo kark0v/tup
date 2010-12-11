@@ -1,0 +1,33 @@
+- title 'Removed Job Proposal'
+- section 'jobs'
+
+= render :partial => 'subnavs/jobs'
+
+.one-column				
+  %h2.title 
+    Job Proposal Removed
+
+  %p= "This Job Proposal was removed by the Administration due one or more of the following itens:"
+
+  %ul
+    %li - Inaccurate Information
+    %li - Offensive Content
+    %li - Duplication
+
+  %p= "If you submitted this Job Proposal and/or have an enquire, please #{link_to 'contact us', contactus_path}."
+
+  - unless @jobs.empty?		
+    %h2.second_title 
+      Featured Jobs
+	
+    %ul.jobs
+      - @jobs.each do |job|
+        %li{job.featured ? { :class => "featured" } : {} }
+          .date.particle
+            = h job.deadline_at.strftime("%b #{job.deadline_at.day.ordinalize}, %Y")
+          %a{:href => job_url(job)}
+            = h job.role
+          %span.particle at
+          = h job.company
+          %span.particle in 
+          = h job.location	

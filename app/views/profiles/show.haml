@@ -1,0 +1,44 @@
+- title 'My Profile'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2.title
+    Personal Information
+
+  %div.actions
+    %ul.user_actions
+      %li= link_to 'Edit', edit_profile_path
+      %li= link_to 'View Public Profile', person_path(current_user)
+
+  .person_profile.vcard
+    .object_image{ :id => 'people' }
+      = image_tag @person.photo.url(:full), :class => 'photo'
+
+    .object_info{ :id => 'people' }
+      %h3.fn.n= @person.name
+      %h4= @person.professional_headline
+
+      %p
+        %strong Email:
+        = h @person.email
+
+      %p
+        %strong Homepage:
+        = h @person.homepage
+
+      - if @person.has_role? 'tup_member' or current_user.has_role? 'collaborator'
+        %p
+          %strong TUP description
+          = h @person.tup_description
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'general', :page => 'show' }
+

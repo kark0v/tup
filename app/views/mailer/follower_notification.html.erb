@@ -1,0 +1,12 @@
+<p>Hello <%=h @followed.name %>!</p>
+
+<p> <%= link_to h(@follower.name), person_url(@follower) %> is now following your moves on <%= link_to "The Usability Page", root_url %>.
+
+<p>Do you want to follow back? If your answer is yes, go to <%= link_to h(@follower.name), person_url(@follower) %> profile page and click follow!
+    
+<p>
+  ---<br />
+  The Usability Page Team
+</p>
+
+<p>This message was intended for <%=h @followed.email %>. If you do not wish to receive this type of email from The Usability Page in the future, go to your profile and configure your notification settings.</p>

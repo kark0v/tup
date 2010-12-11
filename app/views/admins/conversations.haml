@@ -1,0 +1,37 @@
+- title 'Administration :: Conversations'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  %h2.title
+    All Conversations
+
+  - if @conversations.empty?
+    %p There are no messages on The Usability Page.
+  - else
+    %table
+      %tr
+        %td ID
+        %td Creator
+        %td Members
+        %td Title
+        %td Creation Date
+        %td Actions
+      %ul
+        - @conversations.each do |conversation|
+          %tr
+            %td= conversation.id
+            %td
+              %a{:href => person_url(conversation.messages.first.person), :title => conversation.messages.first.person.name }
+                = conversation.messages.first.person.name
+            %td
+              %a{:href => person_url(conversation.messages.last.person), :title => conversation.messages.last.person.name }
+                = conversation.messages.last.person.name
+            %td= conversation.title
+            %td= conversation.created_at
+            %td
+              %table
+                %tr= link_to 'See Details', conversation_path(conversation)
+                %tr= link_to 'Remove', conversation_path(conversation), :confirm => 'Are you sure?', :method => :delete
+

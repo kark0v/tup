@@ -1,0 +1,7 @@
+.edit_screenshot
+  - fields_for "website[screenshots_edit_fields][]", screenshot_edit  do |s|
+    %p
+      = image_tag screenshot_edit.photo.url(:medium)
+      = link_to_function "Remove", "mark_screenshot_for_destroy(this)"
+      = s.hidden_field :id
+      = s.hidden_field :should_destroy, :class => 'should_destroy'

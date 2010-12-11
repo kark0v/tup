@@ -1,0 +1,402 @@
+/*----------TOC-----------
+1) General body
+2) Layout
+---2.1) Header
+-----2.1.1 Search
+-----2.1.2 Navigation
+-----2.1.3 Notification
+---2.2) Content
+-----2.2.1) Main
+-----2.2.1.1) One Column Design
+-----2.2.1.2) Two Columns Design
+-----2.2.2) Sidebar
+-----2.2.3) Forms
+-----2.2.4) Tabs
+-----2.2.5) Indexes :: Object Listing
+---2.3) Footer
+-----2.3.1) Feedback
+-----2.3.2) Links
+3) Helpers
+------------------------*/
+
+/* =========== 1) General body =========== */
+html, body{background:#999;color:#fff;font-size:12px;margin:0;padding:0}
+html, body,th,td,input,textarea,select,option, a{font-family:"Verdana", "Trebuchet MS", "Tahoma"; font-size:12px;}
+h1,h2,h3{font-weight:bold;letter-spacing:-1px;font-family:"Verdana", "Trebuchet MS", "Tahoma"}
+h1{font-size:18px;}
+h2{font-size:20px;}
+a{text-decoration:none;}
+a:hover{text-decoration:underline;}
+img{border:0}
+ul, li{padding: 0; margin: 0; list-style: none;}
+p.undertitle { margin: 0px 0px 10px 0px; padding: 0px; font-size: 0.9em; }
+
+table td { padding: 5px 15px 0 15px; }
+table thead { font-weight: bold; text-align: left; }
+table thead td { border-bottom: 1px solid #ddd; }
+td.right { text-align: right; }
+
+/* =========== 2) Layout =========== */
+#container{margin:0 auto;text-align:center;width:980px;height:100%}
+	/* =========== 2.1) Header =========== */
+	#header{width:100%}
+	#header ul{display: block;margin:0 0;padding:0;list-style: none}
+	#header #access{float:right;height:43px;}
+	#header #access ul li{display:block;float: right;margin: 0 0 0 3px;padding:0}
+	#header #access ul li img{margin:-3px 0;}
+	#header #access ul li a:hover img{margin:0 0;} /* gives the slide effect */
+
+		/* =========== 2.1.1) Search =========== */
+		#header #logosearch{width:100%;height:135px; background:url('/images/header_fold_beta.png') no-repeat left top;}
+		#header #logosearch #logo{float:left;width:500px;margin:13px 20px 0px 54px;}
+		#header #logosearch #searchbox #searchform{padding:0;}
+		#header #logosearch #searchbox{float:right;width:380px;height:50px; background:url('/images/themes/pink/search_box.png') no-repeat bottom right; margin:43px 0 0 0;}
+		#header #logosearch #searchbox.websites	{background:url('/images/themes/websites/search_box.png') no-repeat bottom right;}
+		#header #logosearch #searchbox.jobs			{background:url('/images/themes/jobs/search_box.png') no-repeat bottom right;}
+		#header #logosearch #searchbox.books		{background:url('/images/themes/books/search_box.png') no-repeat bottom right;}
+		#header #logosearch #searchbox.people		{background:url('/images/themes/people/search_box.png') no-repeat bottom right;}
+		#header #logosearch #searchbox.admin		{background:url('/images/themes/pink/search_box.png') no-repeat bottom right;}
+		#header #logosearch #searchbox.inbox		{background:url('/images/themes/inbox/search_box.png') no-repeat bottom right;}
+
+		#header #logosearch #searchbox #fields{width:300px;float:left;margin:12px 0 0 12px;}
+		#header #logosearch #searchbox #fields input.txtsearch{width:150px;}
+		#header #logosearch #searchbox #button{width:33px;float:right;margin:11px 20px 0 0;}
+
+
+		/* =========== 2.1.2) Navigation =========== */
+		#header #nav{background:url('/images/nav_xtile.png') repeat-x;width:100%;height:39px;text-align:left;margin:0}
+		#header #nav a{font-size:12px; height:39px; line-height: 39px; padding: 0px 10px; display: block; font-weight:bold;color:#fff;text-decoration:none;text-transform:capitalize}
+		#header #nav ul li{float:left; margin: 0 0 0 3px;padding:0px 10px 0px 0px;background:url('/images/nav_seperator.png') no-repeat top right;text-align:center;}
+		#header #nav #nav_sections{float:left;width:506px;}
+		#header #nav #nav_account{float:right;width:474px;}
+		#header #nav #nav_account ul li{float:right; background:url('/images/nav_seperator.png') no-repeat top left; padding:0px 10px 0px 20px;}
+
+
+		#header #sub_nav{width:100%;height:29px;background:url(/images/subnav_corner.png) no-repeat bottom right;}
+		#header #sub_nav ul li{float:left;margin:6px 0 0 3px;padding:0 10px 2px 10px;text-align:left;border-right:1px solid #fff}
+		#header #sub_nav ul li:last-child{border-right:0px solid #fff}
+		#header #sub_nav ul li a{font-size:12px;color:#fff;text-transform:capitalize}
+
+		/* =========== 2.1.3) Notification =========== */
+		#notice {display:none;width:980px;height:45px;margin:0 auto; padding: 0;position: fixed; top:0;text-align: left;z-index: 10000;}
+		#notice_message{width:960px;height:100%;padding:8px 0 0 20px;font-size:13px;color:#333;background:url('/images/notice_bg.png') no-repeat top left;}
+		#notice_close{float:right;width:21px;height:20px;margin:0 30px 0 0;cursor: pointer;}
+		#notice.show{display:block;}
+
+		#flash-persistent-message { margin: 10px 0; padding: 10px 70px; background: #e91c6b; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; line-height: 18px; }
+
+	/* =========== 2.2) Content =========== */
+	#content{text-align:left; background: url('/images/bg_body.png') repeat-y 0px 0px; }
+
+		/* =========== 2.2.1) Main =========== */
+		#main{float:left; width:791px; color:#666; min-height: 750px; padding: 20px 15px 10px 0px; }
+		#main h2.title, #main h2.subtitle, #main h2.second_title{width: 750px; font-size:20px; padding: 3px 0px 3px 0px; margin-bottom: 0; background:url('/images/header_line.png') no-repeat 0px 29px; clear: both; }
+		#main .two-columns-body h2.title, #main .two-columns-body h2.subtitle{width: 593px; }
+		#main .two-columns-body h2 .add_btn { float: right; }
+		#main h2.subtitle{ color: #666666; font-size: 14px; background:url('/images/header_line.png') no-repeat 0px 20px; }
+		#main h2.second_title{ margin: 40px 0px 20px 0px; }
+		#main h2 .particle { color: #666666; font-weight: 100; }
+		#main .actions{width: 776px; height: 24px; background:url('/images/header_line.png') repeat-y; margin: 0px 0px 20px 0px; padding: 0px; clear: both;}
+		#main .two-columns-body .actions { width: 593px; }
+		#main .actions ul {padding: 0px; margin: 0px; list-style: none; }
+		#main .actions ul.user_actions {float: left;}
+		#main .actions ul.admin_actions {float: right;}
+		#main .actions ul li {float:left;margin:3px 0 0 3px;padding:0 6px 2px 6px;text-align:left; }
+		#main .actions a, #main .actions a:visited ,#main .actions a:hover { color: #333333; }
+		#main #fields{width:260px;float:left;margin:12px 0 0 12px;}
+		#main #fields input.txtsearch{width:150px;}
+		#main #button{width:33px;float:left;margin:7px 40px 0 0;}
+		#main .one-column p a { font-weight: bold; }
+		#main .two-columns-body p a { font-weight: bold; }
+
+		/* =========== 2.2.1.1) One Column Design =========== */
+		.one-column { padding-left: 15px; }
+
+		/* =========== 2.2.1.2) Two Columns Design =========== */
+		.two-columns-bar { float: left; width: 198px; }
+		.two-columns-bar ul { padding: 13px 0 0 0; }
+		.two-columns-bar ul li { padding: 0 0px 0 12px; height: 40px; line-height: 40px; background: url('/images/sub_menu_sprite.png') no-repeat 0 0; }
+		.two-columns-bar ul li:hover { background: url('/images/sub_menu_sprite.png') no-repeat 0 -40px; }
+		.two-columns-bar ul li.selected { background: url('/images/sub_menu_sprite.png') no-repeat 0 -40px; }
+		.two-columns-bar ul li a { color: #666666; display: block; }
+		.two-columns-bar ul li a:hover { text-decoration: none; }
+		.two-columns-bar ul li.selected a { font-weight: bold; }
+		.two-columns-body { float: right; width: 593px; }
+
+		/* =========== 2.2.2) Sidebar =========== */
+		#sidebar{ float: left; width: 173px; }
+		.sidebox{width:169px;float:right;margin:10px 0 0 0;}
+		.sidebox .sidebox_title{padding:5px 0 5px 8px;width:161px;min-height:24px;background:url('/images/sidebox_title2.png') no-repeat;font-size:14px;color:#fff;}
+		.sidebox .sidebox_body{width:149px;background-color:#5B5B5B;padding:5px 10px 10px 10px;font-size:12px;color:#fff}
+		.sidebox .sidebox_body ul{display: block;margin:0 0;padding:0;list-style: none}
+		.sidebox .sidebox_body ul li{border-bottom:1px solid #8F8F8F;margin:0 0;padding:8px 0;list-style: none}
+		.sidebox .sidebox_body ul li:last-child{border-bottom:0px;}
+		.sidebox a{color:#fff;text-decoration:none;font-weight:bold;}
+		.sidebox .title{font-weight:bold;}
+		.sidebox .author{font-weight:normal;color:#E6E6E6;}
+		.sidebox input[type=text]{width: 140px; margin: 5px 0 10px;}
+		.sidebox .sponsor_image {margin: 5px 12px 0px 12px;}
+
+			/* =========== 2.2.2.1) Sidebar Styles :: Tiny Squares =========== */
+			.sidebox .sidebox_body ul.tiny_squares{ display: block;margin:0 0;padding:0;list-style: none; clear: both; }
+			.sidebox .sidebox_body ul.tiny_squares li{ float: left; border-bottom: 0px;margin:0 0;padding:5px 5px 5px 0;list-style: none}
+			.sidebox .sidebox_body p { clear: both; }
+			
+			/* =========== 2.2.2.1) Sidebar Styles :: People - Who is recently joining? =========== */
+			.sidebox .sidebox_body ul.recently_joined{ display: block;margin:0 0;padding:0;list-style: none; clear: both; }
+			.sidebox .sidebox_body ul.recently_joined li a { float: left;}
+			.sidebox .sidebox_body ul.recently_joined li .info { float: left; padding: 0px 4px; width: 60px;}
+			.sidebox .sidebox_body ul.recently_joined li .info span.fn { padding: 0px; margin: 0px; height: 26px; width: 100%; }
+		  .sidebox .sidebox_body ul.recently_joined li .info span.follow { height: 30px; line-height: 30px; width: 100%; font-size: 12px; }
+
+			/* =========== 2.2.2.1) Sidebar Styles :: Books =========== */
+			.sidebox .sidebox_body ul.books { display: block;margin:0 0;padding:0;list-style: none; clear: both; }
+			.sidebox .sidebox_body ul.books li a { float: left;}
+			.sidebox .sidebox_body ul.books li .info { float: left; padding: 0px 2px 0px 6px; width: 90px;}
+			.sidebox .sidebox_body ul.books li .info span.fn { padding: 0px; margin: 0px; height: 26px; width: 100%; }
+			.sidebox .sidebox_body ul.books li .info a { float: none; }
+
+			
+			/* =========== 2.2.2.1) Sidebar Styles :: See All Links =========== */
+			.sidebox .sidebox_body .see_all{ margin:0;padding: 3px  0; clear: both; text-align:center; background-color: #999; }
+			.sidebox .sidebox_body .see_all a { display: block; }
+			
+		/* =========== 2.2.3) Forms =========== */
+		.frm{margin:0 0 0 10px;padding:20px 0 0 0px;}
+		.frm p {padding:0 0 10px 5px;margin:0px;}
+		.frm p.submit {margin:3px 0 0 0;}
+		.frm label {display:block;padding:0 0 5px 3px;font-weight:bold;font-size:12px;color:#999999}
+		.frm span {display:block;padding:2px 0 0px 3px;font-style:italic;font-size:11px;color:#999999}
+		.frm input[type=text], .frm input[type=password], .frm textarea {width: 350px;}
+		.frm input, .frm textarea, .frm select {border:1px solid #aaaaaa; padding:2px; background:#ffffff url(/images/forms/input_bg.gif) top left no-repeat;}
+		.frm input:hover, .frm textarea:hover, .frm select:hover {border:1px solid #888;}
+		.frm input:active, .frm textarea:active, .frm select:active {border:1px solid #888;}
+		.frm textarea {height: 150px; padding: 8px 4px 4px 8px; }
+		.frm textarea.deep {height:350px; }
+		.frm textarea.shallow {height:50px; }
+		.frm input[type=submit] {cursor:pointer;}
+		.frm input.file {background:#fff;border:none;}
+
+		.frm#login_box {margin:0px;padding: 0px;}
+		.frm#login_box p {padding:5px 0 10px 0px; margin:0px;}
+
+		input[type=submit] {cursor:pointer; border:1px solid #aaaaaa; padding:2px; background:#ffffff url(/images/forms/input_bg.gif) top left no-repeat;}
+		input[type=submit]:hover {border:1px solid #888;}
+		form span {display:block;padding:2px 0 0px 3px;font-style:italic;font-size:11px;color:#999999}
+
+		/* =========== 2.2.4) Tabs =========== */
+		.subsection_tabs { list-style: none; border-bottom: 1px solid #ccc; width: 100%; z-index: 1; -moz-box-shadow: inset 0 -2em 3em -3em #ccc; }
+		.subsection_tabs li { float: left; }
+		.subsection_tabs li a { height: 28px; line-height: 28px; padding: 0px 10px; display: block; color: #666666; }
+		.subsection_tabs li a:hover { text-decoration: none; }
+		.subsection_tabs li a.active { font-weight: bold; background: #fff; border: 1px solid #ccc; border-bottom: 1px solid #fff; margin-bottom: -1px; z-index: 10000; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; -webkit-border-top-right-radius: 5px; -webkit-border-top-left-radius: 5px;}
+
+
+		/* =========== 2.2.5) Indexes :: Object Listing =========== */
+		#main .one-column ul.objects {width: 776px; padding: 3px 0px; margin: 15px 0px 5px 0px; list-style: none; display: block; clear:both; }
+		#main .two-columns-body  ul.objects {width: 593px; padding: 3px 0px; margin: 10px 0px 5px 0px; list-style: none; display: block; clear:both; }
+		#main ul.objects li {float:left; width: 33%; }
+		#main ul.objects a { text-decoration: none; }
+		#main ul.objects a:hover { text-decoration: underline; }
+
+		/* =========== 2.2.4) Indexes :: Websites =========== */
+		#main ul.websites {padding: 0px; margin: 15px 0px 5px 0px; }
+		#main ul.websites .website_block { width: 85%; height: 230px; margin: 0px 5% 20px 0; padding: 5% 3% 5% 3%; border: 1px solid #999; -moz-box-shadow: 0 0 4px #999; -webkit-box-shadow: 0 0 4px #999; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+		#main ul.websites .website_block:hover { border: 1px solid #558C30; -moz-box-shadow: 0 0 12px #666; -webkit-box-shadow: 0 0 12px #666; }
+		#main ul.websites .website_block h3 { font-size: 14px; font-weight: bold; padding: 0px; margin: 0px 0px 2px 0px; }
+		#main ul.websites .website_block .image { padding: 8px 0px 15px 0px; border-bottom: 1px solid #CDCDCD; }
+		#main .two-columns-body ul.websites .website_block .image img { width: 100%; }
+		#main ul.websites .website_block .label { background:url('/images/tag.png') no-repeat 3px 3px; padding-left: 25px; height: 20px; line-height: 20px; color: #333333; margin: 6px 0px; }
+
+		/* =========== 2.2.4) Indexes :: Books =========== */
+		#main ul.books {padding: 0px 0px; margin: 15px 0px 5px 0px; }
+		#main ul.books li { width: 21%; padding: 2%; min-height: 300px; }
+		#main ul.books li h3 { font-size: 14px; font-weight: bold; padding: 0px; margin: 0px 0px 2px 0px; }
+		#main ul.books li .image { padding: 0px 0px 5px 0px; }
+		#main .two-columns-body ul.books li .image img { width: 100%; }
+		#main ul.books li .label { background:url('/images/tag.png') no-repeat 3px 3px; padding-left: 25px; height: 20px; line-height: 20px; color: #333333; margin: 6px 0px; }
+
+		/* =========== 2.2.4) Indexes :: Jobs =========== */
+		#main ul.jobs li { background-color: #EAEAEA; margin-bottom: 5px; height: 36px; line-height: 36px; padding: 0px 10px; font-weight: bold; }
+		#main ul.jobs li:hover { background-color: #F4F4F4; }
+		#main ul.jobs li a { color: #FC9036; }
+		#main ul.jobs li .particle { font-weight: 100; }
+		#main ul.jobs li .date { float: right; }
+
+		/* =========== 2.2.4) Indexes :: People =========== */
+		#main ul.people { padding: 0px 0px; margin: 15px 0px 5px 0px; }
+		#main ul.people li { min-height: 110px; }
+		#main ul.people li .people_block { width: 95%; padding: 10% 5% 10% 0%; }
+		#main ul.people li .people_block .image { float: left; width: 30%; }
+		#main .two-columns-body ul.people li .people_block .image img { width: 100%; }
+		#main ul.people li .people_block .info { float: right; width: 62%; padding: 0px 4%; }
+		#main ul.people li .people_block .info .name { padding: 0px; margin: 0px; height: 26px; line-height: 26px; width: 100%; border-bottom: 1px solid #ccc; }
+		#main ul.people li .people_block .info .points { height: 30px; line-height: 30px; width: 100%; font-size: 12px; }
+
+		/* =========== 2.2.4) Indexes :: Websites in Person View =========== */
+		#main ul.profile_websites li { width: 20%; }
+		#main ul.profile_websites .website_block { height: 200px; }
+		#main ul.profile_websites .website_block .image img { width: 100%; height: 106px;}
+		#main ul.profile_websites.books li { min-height: 200px; }
+
+		/* =========== 2.2.4) Indexes :: About Us =========== */
+		#main ul.aboutus {padding: 0px; margin: 15px 0px 5px 0px; }
+		#main ul.aboutus li { float: left; width: 21%; padding-right: 4%; min-height: 200px; }
+		#main ul.aboutus li .top { width: 100%; height: 48px; clear: both; border-bottom: 1px solid #ccc; padding-bottom: 8px;}
+		#main ul.aboutus li .top .photo { float: left;  width: 35%; }
+		#main ul.aboutus li .top .photo img { width: 48px; height: 48px; }
+		#main ul.aboutus li .top h3.name { float: left; width: 65%; height: 48px; padding: 0px; margin: 0px; }
+		#main ul.aboutus li .desc .position { width: 100%%; color: #ccc; font-weight: bold; margin: 5px 0px 15px; }
+		
+		/* =========== 2.2.4) Indexes :: Suggestions and Notifications =========== */
+		#main ul.suggestions li, #main ul.notifications li { background-color: #F4F4F4; margin-bottom: 5px; height: 36px; line-height: 36px; padding: 0px 10px; }
+		#main ul.suggestions li:hover, #main ul.notifications li:hover { background-color: #EAEAEA; }
+		#main ul.suggestions li a, #main ul.notifications li a { color: #427E85; }
+		#main ul.suggestions li .seen, #main ul.notifications li .seen { float: right; }
+
+		/* =========== 2.2.5) Pagination =========== */
+    #main .pagination { width: 100%; text-align: center; margin: 30px 0px 10px; }
+
+		/* =========== 2.2.6) Website/Book/Jobs/People Page =========== */
+		#main .object_image { width: 35%; float: right; }
+		#main .object_image#website { width: 45%; }
+		#main .object_image img { width: 100%; }
+		#main .object_info { width: 65%; float: left; padding: 0px 0px 30px 0px; }
+		#main .object_info#website { width: 55%; }
+		#main .object_info .line { width: 100%; clear: both; margin-bottom: 5px; }
+		#main .object_info .label { font-weight: bold; width: 140px; float: left; }
+		#main .object_info#people .label { width: 180px; }
+		#main .object_info .tags { background:url('/images/tag.png') no-repeat 3px 3px; padding-left: 25px; height: 20px; line-height: 20px; color: #333333; margin: 6px 0px; }
+
+		/* =========== 2.2.7) Reviews =========== */
+		#main .review_block { width: 96%; margin: 0 0 20px 0; padding: 2%; border: 1px solid #999; -moz-box-shadow: 0 0 4px #999; -webkit-box-shadow: 0 0 4px #999; -moz-border-radius: 15px; -webkit-border-radius: 15px;}
+		#main .review_block .author { float: left; font-size: 14px; font-weight: bold; padding: 0px; margin: 0px 0px 5px 0px; }
+		#main .review_block .date { float: right; padding: 0px; margin: 0px 0px 5px 0px; }
+		#main .review_block .review_actions { height: 26px; float: left; font-size: 11px; padding: 0px; margin: 0px 0px 5px 0px; }
+		#main .review_block .votes { float: right; padding: 0px; margin: 0px; height: 26px;  line-height: 26px; }
+		#main .review_block .votes a { width: 27px; height: 26px; float: right; color: transparent; margin-left: 3px; }
+		#main .review_block .votes a div.positive { background:url('/images/thumbsup.gif') no-repeat 0 0; }
+		#main .review_block .votes a div.negative { background:url('/images/thumbsdown.gif') no-repeat 0 0; }
+		#main .review_block .votes a div:hover { background-position: 0px -26px; }
+		#main .review_block .votes a div.selected { background-position: 0 -52px; }
+
+
+		/* =========== 2.2.8) Comments =========== */
+		#main .comment_block { margin: 10px 0 20px 0; background:url('/images/comment_seperator.png') no-repeat center bottom;}
+		#main .comment_block .comment_author { float: left; width: 20%; font-size: 12px; font-weight: none; padding: 0px; margin: 0px 0px 5px 0px; }
+		#main .comment_block .comment_author ul {  }
+		#main .comment_block .comment_content { float: right; width: 72%; padding: 0px; margin: 0px; }
+		#main .comment_block .comment_actions { float: right; width: 8%; padding: 0px; margin: 0px; font-size: 11px; text-align: right; }
+
+		/* =========== 2.2.9) New Reviews/Comments =========== */
+		#main .new_review_block { width: 96%; margin: 0 0 20px 0; padding: 2%; border: 1px solid #999; -moz-box-shadow: 0 0 4px #999; -webkit-box-shadow: 0 0 4px #999; -moz-border-radius: 15px; -webkit-border-radius: 15px;}
+		#main .new_comment_block { margin: 0 0 20px 0; }
+		#main .new_review_block .title, #main .new_comment_block .title { width: 100%; font-size: 14px; font-weight: bold; padding: 0px; margin: 0px 0px 5px 0px; }
+		#main .new_review_block form, #main .new_comment_block form { padding: 0px; margin: 0px; }
+    #main .new_review_block textarea, #main .new_comment_block textarea  { width: 100%; height: 150px; overflow: auto; padding: 0px; margin: 0px 0px 5px 0px; }
+		#main .new_review_block .submit_actions, #main .new_comment_block .submit_actions  { float: right; font-size: 11px; padding: 0px; margin: 0px 0px 5px 0px; }
+
+		/* =========== 2.2.9) Profile Pages :: Reviews =========== */
+		ul.reviews {}
+		ul.reviews li { margin: 0px 0 20px 0; background:url('/images/comment_seperator.png') no-repeat center bottom; padding-bottom: 20px; }
+		ul.reviews li:last-child { background: none; }
+		ul.reviews li .right { float: right; width: 215px; text-align: right; }
+		ul.reviews li .right .date { height: 24px; line-height: 24px; }
+		ul.reviews li .right ul.info-actions {}
+		ul.reviews li .right ul.info-actions li { margin: 10px 0 0px 0; background: none; padding-bottom: 0px;}
+		ul.reviews li .left { float: left; width: 368px; padding-right: 10px; }
+		ul.reviews li .left .title a { font-size: 1.2em; font-weight: bold;  height: 24px; line-height: 24px; }
+		
+		/* =========== 2.2.9) Profile Pages :: Endorsements =========== */
+		ul.endorsements { margin-top: 20px; }
+		ul.endorsements li { margin: 0px 0 20px 0; background:url('/images/comment_seperator.png') no-repeat center bottom; padding-bottom: 20px; }
+		ul.endorsements li:last-child { background: none; }
+		ul.endorsements li .right { float: right; width: 215px; text-align: right; }
+		ul.endorsements li .right .date { height: 24px; line-height: 24px; }
+		ul.endorsements li .right ul.info-actions {}
+		ul.endorsements li .right ul.info-actions li { margin: 10px 0 0px 0; background: none; padding-bottom: 0px;}
+		ul.endorsements li .left { float: left; width: 368px; padding-right: 10px; }
+		ul.endorsements li .left .title a { font-size: 1.2em; font-weight: bold;  height: 24px; line-height: 24px; }
+
+	/* =========== 2.3) Homepage =========== */
+	#home-content{padding: 0px; margin: 0px; clear: both; }
+	#home-content .block {width:942px; display: block; margin: 6px 0px; padding: 16px 18px; -moz-box-shadow: 0 0 4px #666; -webkit-box-shadow: 0 0 4px #666; min-height: 55px; background-color:#FFFFFF; border: 1px solid #7d7d7d; color: #333333; text-align: left; clear: both; }
+	#home-content .block .more { width: 55px; height: 54px; z-index: 10; }
+	#home-content .block .more a { display: block; width: 55px; height: 54px; }
+
+		/* =========== 2.3.1) Block What =========== */
+		.block#what { width: 978px; padding: 0px 0px; margin: 6px 0px 12px 0px; background: #FFFFFF; -moz-border-radius-topright: 10px; -webkit-border-top-right-radius: 10px;}
+		.block#what ul { list-style: none; padding: 0px 0px 0px 18px; clear: both; }
+		.block#what ul li { float: left; padding: 0px 20px 20px 0px; width: 219px; }
+		.block#what .signup { height: 32px; width: 100%; background: url('/images/signup_line.png') no-repeat; }
+		.block#what .signup a { float: right; margin: -3px 38px 3px 0px; }
+
+		/* =========== 2.3.1) Block Latest Websites =========== */
+		.block#latestwebsites { height: 110px; }
+		.block#latestwebsites h3 { width: 110px; float: left; padding-top: 20px; letter-spacing: 0.95pt;}
+		.block#latestwebsites ul { width: 810px; list-style: none; float: right; margin-right: 20px; z-index: 2; float: left; }
+		.block#latestwebsites ul li { float: left; margin: 0px 0px 0px 12px; width: 150px; height: 100px; z-index: 2; }
+		.block#latestwebsites .more { position: static; margin-left: 905px; margin-top: 73px; background: url('/images/more_websites.gif') no-repeat; }
+
+		/* =========== 2.3.1) Block Latest Contributors =========== */
+		.block#latestcontributors { height: 100px; margin-top: 12px; }
+		.block#latestcontributors h3 { width: 170px; float: left; padding-top: 20px; letter-spacing: 0.95pt;}
+		.block#latestcontributors ul { width: 750px; list-style: none; float: right; margin: 15px 20px 0 0; z-index: 2; float: left; }
+		.block#latestcontributors ul li { float: left; margin: 0px 0px 0px 15px; width: 220px; height: 100px; z-index: 2; }
+		.block#latestcontributors ul li a { color: #394064/*#5983C3*/; font-weight: bold; }
+		.block#latestcontributors ul li img { display: block; float: left; width: 70px; }
+		.block#latestcontributors ul li span.name { display:block; float: left; width: 140px; margin: 0 5px; border-bottom: 1px solid #ccc; height: 26px; line-height: 26px; }
+		.block#latestcontributors ul li span.action { display:block; float: left; width: 140px; padding: 8px 5px 0 5px; }
+		.block#latestcontributors .more { position: static; margin-left: 905px; margin-top: 63px; background: url('/images/more_contributors2.png') no-repeat; }
+
+		/* =========== 2.3.1) Blocks Jobs =========== */
+		.block#latestjobs { width: 582px; height: 140px; clear:none; float: left; }
+		.block#latestjobs ul { list-style: none; margin-top: 10px; float: left; }
+		.block#latestjobs ul li { margin: 0px 0px 12px 0px; width: 100%; color: #666666; }
+		.block#latestjobs ul li a { color: #FF7F24; }
+		.block#latestjobs ul li:last-child { margin: 0px 0px 0px 0px; z-index: 2;}
+		.block#latestjobs ul li .company, .block#latestjobs ul li .location { font-weight: bold; color: #333;}
+		.block#latestjobs .more { width: 55px; height: 54px; z-index: 1; position: relative; margin-left: 545px; margin-top: 74px; background: url('/images/more_jobs.gif') no-repeat; }
+
+
+		.block#submitjob { width: 312px; height: 140px; clear:none; float: right; }
+		.block#submitjob a { margin-top: 20px; float: right; }
+
+		/* =========== 2.3.1) Blocks Books =========== */
+		.block#favbooks { height: 240px; clear:none; float: left; }
+		.block#favbooks h3 { width: 190px; float: left; }
+		.block#favbooks ul { width: 740px; padding: 0px 0px; margin: 0px 0px 5px 0; float: left; z-index: 1;}
+		.block#favbooks ul li { float: left; width: 25%; min-height: 200px; float: right; }
+		.block#favbooks ul li a { color: #9B2415; padding-right:15px;}
+		.block#favbooks ul li h5 { font-size: 14px; font-weight: bold; padding: 0px; margin: 0px 0px 2px 0px; }
+		.block#favbooks ul li .image { padding: 0px 0px 5px 0px; }
+		.block#favbooks .more { position: static; margin-left: 905px; margin-top: 202px; background: url('/images/more_books.gif') no-repeat; }
+
+
+	/* =========== 2.4) Footer =========== */
+	.footer{text-align:left; padding: 4px 0px 20px 0px; display: block; clear:both;}
+		/* =========== 2.4.1) Feedback =========== */
+		#feedback{float:left;width:806px;background:url('/images/nav_xtile.png') repeat-x #363636; height: 40px ;
+						  font-size:12px; font-weight:bold;color:#fff;text-decoration:none;
+		          -moz-border-radius-bottomleft: 10px; -moz-border-radius-bottomright: 10px; -webkit-border-bottom-left-radius: 10px; -webkit-border-bottom-right-radius: 10px;}
+		.footer#home #feedback { width:980px; }
+		#feedback #feedbacklabel{float:left;width:160px; padding: 12px 5px 5px 10px;}
+		#feedback #feedbackinput{float:left; width:600px; padding: 6px 2px;}
+		#feedback #feedbackinput textarea{background:#6c6c6c; border: none; width: 100%; height: 14px;
+		                         font-size:12px; color:#fff; text-decoration:none; padding: 5px 8px;}
+		#feedback #buttonCancel, #feedback #buttonSend {float:right; margin: 3px;}
+
+		/* =========== 2.4.2) Links =========== */
+		.footer#home #links { width:980px; }
+		#links{float:left;width:806px;background-color:#999;color:#fff; margin: 6px 0px 30px 0px;}
+		#links #linksright{float:right;width:400px;background-color:#999;color:#fff;}
+		#links #linksright a {float:right; margin: 0px 0px 0px 5px;}
+		#links #linksleft{float:left;width:376px;background-color:#999;color:#fff;}
+		#links #linksleft a {float:left; margin: 0px 12px 0px 0px;}
+		#links a, #links a:visited {color:#fff;}
+
+/* =========== 3) Helpers ===========  */
+.clear{clear:both; height: 0px; }
+.test{border:1px solid red;}
+:focus {outline: 0;}
+

@@ -1,0 +1,13 @@
+%ul.books
+  - Review.books_recently_reviewed(3).each do |review|
+    %li
+      %a{:href => book_url(review.book), :title => review.book.title }
+        = image_tag review.book.photo.url(:small)
+      .info
+        %span.fn
+          %a{:href => book_url(review.book), :title => review.book.title }
+            =  truncate(review.book.title, :length => 50)
+          was reviewed by
+          %a{:href => person_url(review.person), :title => review.person.name }
+            = truncate(review.person.name, :length => 50)
+      .clear

@@ -1,0 +1,64 @@
+
+=section_colorize(!color)
+  h2
+    :color= !color
+		
+  h1
+    :background-color= !color
+
+  ul.objects a
+    :color= !color
+		
+  div.submittedby
+    :border-color= !color
+		
+  div.submittedby .title
+    :color= !color
+		
+  #header #sub_nav
+    :background-color= !color
+		
+  div.pagination a
+    :color= !color
+		
+  div.two-columns-bar ul li.selected a
+    :color= !color
+
+  div#main div.one-column p a
+    :color= !color
+
+  div#main div.two-columns-body p a
+    :color= !color
+						
+  ul.subsection_tabs li a.active
+    :color= !color
+		
+  ul.reviews li .left .title a
+    :color= !color	
+
+				
+body.websites
+  +section_colorize("#488214")
+	
+body.people
+  +section_colorize("#394064")
+body.inbox
+  +section_colorize("#427E85")
+body.profile
+  +section_colorize("#427E85")	
+		
+body.jobs
+  +section_colorize("#FF7F24")
+	
+body.books
+  +section_colorize("#9B2415")
+	
+body.admin
+  +section_colorize("#e91c6b")
+body.misc
+  +section_colorize("#e91c6b")
+body.blog
+  +section_colorize("#7f09eb")	
+
+body
+  +section_colorize("#353535")

@@ -1,0 +1,51 @@
+- title "Conversation :: #{@conversation.title}"
+- section 'inbox'
+
+- content_for :sub_nav do 
+  %ul
+    %li= link_to 'Conversations', conversations_path
+    %li= link_to 'Notifications', notifications_inbox_path
+    %li= link_to 'Suggestions', suggestions_inbox_path
+
+.one-column				
+  %h2= h @conversation.title
+
+  %ol.messages
+    - @conversation.messages.each do |message|
+      %li{:style => 'overflow: auto'}
+        - if message.new_record?
+          - form_for message, :url => conversation_message_path(@conversation) do |f|
+            = f.hidden_field :person_id
+            = f.text_area :body
+            = f.submit 'reply'
+          = link_to "Remove Yourself from Conversation", remover_conversation_path(@conversation), :confirm => 'Are you sure?', :method => :put
+        - else
+          %p
+            %a{:href => person_url(message.person), :title => message.person.name }
+              = image_tag message.person.photo.url(:thumb), :style => 'float: left'
+            %a{:href => person_url(message.person), :title => message.person.name }
+              = message.person.name
+          %p= h message.body
+          - if current_user != message.person
+            %p= link_to 'Report as SPAM', "#reportbox_message_#{message.id}", :rel => "facebox"
+            = report_box message
+					
+  .block
+    %h2 People involved
+
+    %ul
+      - @conversation.active_people.each do |person|
+        %li
+          %a{:href => person_url(person), :title => person.name }
+            = person.name
+          - if person == current_user
+            = link_to "(remove)", remover_conversation_path(:conversation_id => @conversation.id, :person_id => person.id, :source => 'owner_remove'), :confirm => 'Are you sure?', :method => :put
+          - elsif current_user.has_role? 'tup_member'
+            = link_to "(remove)", remover_conversation_path(:conversation_id => @conversation.id, :person_id => person.id, :source => 'admin_remove'), :confirm => 'Are you sure?', :method => :put
+
+    %p Add more people to this conversation
+    - form_for @conversation_membership do |f|
+      = f.hidden_field :conversation_id, :value => @conversation.id
+      = belongs_to_auto_completer :conversation_membership, :person, :name, { :submit_on_return => true, :url => formatted_people_path(:js) }, {}, { :method => :get, :param_name => 'search' }
+      = f.submit 'add'
+			

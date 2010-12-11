@@ -1,0 +1,51 @@
+- title 'My Profile :: My Websites Reviews'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Websites Reviews
+
+  - if @websites_reviews.empty?
+    %p= "You hadn't made any reviews yet."
+    %p= "Don't be shy! #{link_to "Go browse", websites_path} and share your opinions."
+  - else
+    %ul.reviews
+      - @websites_reviews.each do |review|
+        %li
+          .right
+            .date
+              = h review.created_at.strftime("%b #{review.created_at.day.ordinalize}, %Y")
+            %a{:href => website_path(review.website_id)}
+              - if Website.find(review.website_id).screenshots.empty?
+                = image_tag('/images/default_website_s.png')
+              - else
+                = image_tag Website.find(review.website_id).screenshots.first.photo.url(:thumb)
+            %ul.info-actions
+              %li
+                %a{:href => website_path(review.website_id, :anchor => "review#{review.id}")}
+                  View (#{pluralize(review.comments.active.count, 'Comment')})
+              %li
+                = pluralize(review.votes_result, 'point')
+                from
+                = review.votes.size
+                votes
+          .left
+            .title
+              %a{:href => website_path(review.website_id)}
+                = review.website.name
+            = RedCloth.new(review.body).to_html
+          .clear
+
+  = will_paginate @websites_reviews
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'websites', :page => 'reviews' }
+

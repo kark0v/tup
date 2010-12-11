@@ -1,0 +1,40 @@
+.two-columns-bar
+  - if section == 'general'
+    %ul
+      %li{(page == 'show' or page == 'edit') ? { :class => "selected" } : {} }= link_to 'Personal Information', profile_path
+      %li{page == 'points' ? { :class => "selected" } : {} }= link_to 'Points and Badges', points_profile_path
+      %li{page == 'endorsements' ? { :class => "selected" } : {} }= link_to 'Endorsements', endorsements_profile_path
+
+  - if section == 'network'
+    %ul
+      %li{page == 'updates' ? { :class => "selected" } : {} }= link_to 'Updates', updates_profile_path
+      %li{page == 'followers' ? { :class => "selected" } : {} }= link_to 'Followers', followers_profile_path
+      %li{page == 'followings' ? { :class => "selected" } : {} }= link_to 'Following', following_profile_path
+      %li{page == 'blocked' ? { :class => "selected" } : {} }= link_to 'Blocked', blocked_profile_path
+      /%li{page == 'import' ? { :class => "selected" } : {} }= link_to 'Import', import_profile_path
+      /%li{page == 'export' ? { :class => "selected" } : {} }= link_to 'Export', export_profile_path
+
+  - if section == 'websites'
+    %ul
+      %li{page == 'submissions' ? { :class => "selected" } : {} }= link_to 'Submissions', websites_submissions_profile_path
+      %li{page == 'reviews' ? { :class => "selected" } : {} }= link_to 'Reviews', websites_reviews_profile_path
+      %li{page == 'favs' ? { :class => "selected" } : {} }= link_to 'Favorites', websites_favs_profile_path
+
+  - if section == 'jobs'
+    %ul
+      %li{page == 'submissions' ? { :class => "selected" } : {} }= link_to 'Submissions', jobs_submissions_profile_path
+      %li{page == 'favs' ? { :class => "selected" } : {} }= link_to 'Favorites', jobs_favs_profile_path
+
+  - if section == 'books'
+    %ul
+      %li{page == 'submissions' ? { :class => "selected" } : {} }= link_to 'Requests', books_submissions_profile_path
+      %li{page == 'reviews' ? { :class => "selected" } : {} }= link_to 'Reviews', books_reviews_profile_path
+      %li{page == 'lists' ? { :class => "selected" } : {} }= link_to 'My Book Lists', books_lists_profile_path
+      %li{page == 'favs' ? { :class => "selected" } : {} }= link_to 'Favorites', books_favs_profile_path
+
+  - if section == 'settings'
+    %ul
+      %li{page == 'privacy' ? { :class => "selected" } : {} }= link_to 'Privacy', privacy_profile_path
+      %li{page == 'notifications' ? { :class => "selected" } : {} }= link_to 'Notifications', notifications_profile_path
+      %li{page == 'remove' ? { :class => "selected" } : {} }= link_to 'Remove Account', remove_profile_path
+

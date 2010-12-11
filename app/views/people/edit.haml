@@ -1,0 +1,42 @@
+- title "Edit :: #{@person.name}"
+- section 'people'
+
+= render :partial => 'subnavs/people'
+
+.one-column
+  %h2.title 
+    Edit #{@person.name}'s Information
+
+  %div.actions
+    %ul.user_actions
+      %li= link_to "Back to #{@person.name} Profile", person_path(@person)
+								
+  - form_for(@person, :html => { :multipart => true, :class => "frm" }) do |f|
+    = f.error_messages
+
+    %p
+      = f.label :name
+      = f.text_field :name
+    %p
+      = f.label :email
+      = f.text_field :email
+    %p
+      = f.label :professional_headline
+      = f.text_field :professional_headline
+    %p
+      = f.label :password
+      = f.password_field :password
+    %p
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation
+    %p
+      = f.label :homepage
+      = f.text_field :homepage
+
+    %p= f.file_field :photo
+
+    %p
+      = f.submit 'Update'
+      = link_to 'Cancel', person_path(@person)
+		
+

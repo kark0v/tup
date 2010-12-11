@@ -1,0 +1,36 @@
+- title 'Administration :: Reply Report'
+- section 'admin'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'Dashboard', admin_path(current_user)
+    %li= link_to 'Reports', reports_path
+    %li= link_to 'Logs', reports_path
+
+.one-column				
+  %h2.title
+    Reply to Report
+
+  - form_for(@conversation, :html => { :class => "frm"} ) do |f|
+
+    %p
+      = label_tag :to, 'To'
+      = text_field_tag :to, @report.reporter.name, :disabled => true
+    %p
+      = f.label :title, 'Subject'
+      = f.text_field :title, :value => "Reply to Report"
+
+    - fields_for 'conversation[initial_message]' do |m|
+      %p
+        = m.hidden_field :person_id, :value => current_user.id
+        = m.label :body, "Body"
+        = m.text_area :body, :value => "Following the report you submitted on #{@report.created_at}, (...)"
+
+    %fieldset
+      - @conversation.people.each do |person|
+        - fields_for 'conversation[person_attributes][]', person do |p|
+          = p.hidden_field :id
+							   
+    %p
+      = f.submit 'Send Message'
+      = link_to 'Cancel', reports_path

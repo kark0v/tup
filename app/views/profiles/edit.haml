@@ -1,0 +1,101 @@
+- title 'My Profile :: Edit'
+- section 'people'
+
+- content_for :javascript_includes do
+  = javascript_include_tag "livepipe.js", "tabs.js", "profile/edit.js"
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2.title
+    Personal Information
+
+  %div.actions
+    %ul.user_actions
+      %li= link_to 'Back to Profile View', profile_path
+      %li= link_to 'View Public Profile', person_path(current_user)
+
+  %ul#tabs_edit_profile.subsection_tabs
+    %li.tab
+      %a{:href => "#basic", :class => 'active' }
+        Basic Info
+    %li.tab
+      %a{:href => "#password"}
+        Password
+    %li.tab
+      %a{:href => "#photo"}
+        Photo
+    - if current_user.has_role? 'tup_member' or current_user.has_role? 'collaborator'
+      %li.tab
+        %a{:href => "#aboutus"}
+          About Us Page
+    .clear
+
+
+  #basic
+    - form_for(@person, :html => { :multipart => true, :class => 'frm' }) do |f|
+      = f.error_messages
+
+      %p
+        = f.label :name
+        = f.text_field :name
+      %p
+        = f.label :email
+        = f.text_field :email, :disabled => true
+      %p
+        = f.label :professional_headline
+        = f.text_field :professional_headline
+      %p
+        = f.label :homepage
+        = f.text_field :homepage
+      %p
+        = f.submit 'Update'
+
+  #password
+    %h3 Change your Password
+    %p To change your password you just need to type and confirm your new password below.		
+    - form_for(@person, :html => { :multipart => true, :class => 'frm' }) do |f|
+      = f.error_messages
+
+      %p
+        = f.label :password
+        = f.password_field :password
+      %p
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation
+      %p
+        = f.submit 'Update'
+
+  #photo
+    %h3 Current Photo
+    %p= image_tag @person.photo.url(:full), :class => 'photo'
+		
+    %h3 Update your Photo
+    - form_for(@person, :html => { :multipart => true, :class => 'frm' }) do |f|
+      = f.error_messages
+
+      %p= f.file_field :photo
+
+      %p
+        = f.submit 'Update'
+
+  - if current_user.has_role? 'tup_member' or current_user.has_role? 'collaborator'
+    #aboutus
+      - form_for(@person, :html => { :multipart => true, :class => 'frm' }) do |f|
+        = f.error_messages
+
+        %p
+          = f.label :tup_description, "Biography for About Us Page"
+          = f.text_area :tup_description
+        %p
+          = f.submit 'Update'
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'general', :page => 'edit' }
+

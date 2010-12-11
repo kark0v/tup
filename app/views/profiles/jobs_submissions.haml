@@ -1,0 +1,37 @@
+- title 'My Profile :: My Job Submissions'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Job Proposals Submissions
+    %a{ :href => new_job_path, :class => 'add_btn' }
+      = image_submit_tag '/images/btn_add_job_prop2.jpg', :class => 'button', :id => 'postJob'
+
+  - if @jobs.empty?
+    %p= "You haven't added any job proposal yet."
+    %p= link_to "Add Job Proposal Now!", new_job_path
+  - else
+    %ul.jobs
+      - @jobs.each do |job|
+        %li{job.featured ? { :class => "featured" } : {} }
+          .date.particle
+            = h job.deadline_at.strftime("%b #{job.deadline_at.day.ordinalize}, %Y")
+          %a{:href => job_url(job)}
+            = h job.role
+          %span.particle at
+          = h job.company
+          %span.particle in
+          = h job.location
+    = will_paginate @jobs
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'jobs', :page => 'submissions' }
+

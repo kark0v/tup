@@ -1,0 +1,139 @@
+- title "Book :: #{@book.title}"
+- section 'books'
+
+= render :partial => 'subnavs/books'
+		
+- content_for :sidebar do     
+  - if current_user
+    = render :partial => 'suggest_to_friend', :layout => '/layouts/sidebox', :locals => { :title => 'Suggest to a Friend' }  
+  - unless Book.tag_counts.empty? 
+    = render :partial => 'tag_cloud', :layout => '/layouts/sidebox', :locals => { :title => 'Books Cloud' } 
+  - unless @book.sameAuthor.empty?
+    = render :partial => 'books/books_same_author', :layout => '/layouts/sidebox', :locals => { :title => "Other Books from #{@book.author}" }
+  %div{ :id => 'fans_block' }
+    - if @book.fans.size != 0
+      = render :partial => 'books/fans_block', :layout => '/layouts/sidebox', :locals => { :title => 'Favorite Book of' }
+
+.one-column	
+  %h2.title 
+    = h @book.title
+
+  %div.actions 	
+    - if current_user and current_user.has_role? 'tup_member'
+      %ul.admin_actions
+        %li= link_to 'Remove', book_path(@book), :confirm => 'Are you sure?', :method => :delete
+        %li= link_to 'Edit', edit_book_path(@book)
+        - if @book.featured
+          %li= link_to 'Unfeature', unfeature_book_path(@book), :method => :put
+        - else
+          %li= link_to 'Feature', feature_book_path(@book), :method => :put       
+
+    %ul.user_actions
+      - if current_user
+        		
+        %li{current_user.book_favs?(@book) ? { :id => 'link_unfav', :style => "display: block;" } : { :id => 'link_unfav', :style => "display: none;"} }
+          = link_to_remote "Unmark as Favorite", :url => unfav_book_url(:id => @book.id), :method => :delete
+        %li{!current_user.book_favs?(@book) ? { :id => 'link_fav', :style => "display: block;" } : { :id => 'link_fav', :style => "display: none;"} }
+          = link_to_remote "Mark as Favorite", :url => fav_book_url(:id => @book.id), :method => :put					          
+        
+        %li{!current_user.book_onlist?(@book) ? { :id => 'link_addtolist', :style => "display: block;" } : {:id => 'link_addtolist', :style => "display: none;"} }
+          = link_to 'Add to My Lists', "#bookbox_#{@book.id}", :rel => "facebox"
+        %li{current_user.book_onlist?(@book) ? { :id => 'link_removetolist', :style => "display: block;" } : {:id => 'link_removetolist', :style => "display: none;"} }
+          %span{ :id => 'whatlist'}
+            = render :partial => 'books/add_to_list_manager' 
+            = "(#{link_to 'Edit', "#bookbox_#{@book.id}", :rel => "facebox"} or #{link_to_remote 'Remove', :url => remove_from_list_book_url(:id => @book.id), :method => :delete})"
+					
+        %li{ :id => 'link_addtolist' } 
+				      
+        %li
+          = link_to 'Report', "#reportbox_book_#{@book.id}", :rel => "facebox"
+              
+      - else
+        %li= link_to 'Mark as Favorite', "#loginbox_book_#{@book.id}", :rel => "facebox"
+        %li= link_to 'Add to My Lists', "#loginbox_book_#{@book.id}", :rel => "facebox"
+        %li= link_to 'Report', "#loginbox_book_#{@book.id}", :rel => "facebox"	
+
+  .object_image
+    = link_to image_tag(@book.photo.url(:full)), @book.amazon, :target => :new
+
+  .object_info
+    .line
+      .label
+        Author(s):
+      = h @book.author
+
+    .line
+      .label
+        Published in:
+      = h @book.year_at.strftime("%Y")
+
+    - if @book.publisher.present?
+      .line
+        .label
+          Published by:
+        - if @book.publisher_website.present?
+          = link_to @book.publisher, @book.publisher_website
+        - else
+          = h @book.publisher
+				
+    .line
+      .label
+        ISBN-13:
+      = h @book.isbn
+    
+    - if @book.isbn_10.present?
+      .line
+        .label
+          ISBN-10:
+        = h @book.isbn_10
+
+    - if @book.language.present?
+      .line
+        .label
+          Language:
+        = h @book.language
+		
+    .line
+      .label
+        Suggested by:
+      - if @book.person.is_tup?
+        = h @book.person.name
+      - else
+        %a{:href => person_url(@book.person)}
+          = h @book.person.name
+		
+    - unless @book.tag_list.nil?
+      .tags	
+        - for tag in @book.tags
+          = link_to tag.name, books_path(:tag => tag.name)
+
+    .line
+      = link_to image_tag('/images/amazon.png'), @book.amazon, :target => :new
+				
+    = render :partial => 'rating/rate', :locals => { :asset => @book }
+		
+  - if @book.description.present?
+    %h2.subtitle 
+      Description        
+    = RedCloth.new(@book.description).to_html
+
+  %h2.subtitle 
+    Reviews
+
+  %p{ :id => 'reviews_count'}
+    = render :partial => 'reviews/reviews_count', :locals => { :element => @book }  
+
+  = render :partial => 'reviews/new', :locals => { :element => @book, :review => @book.reviews.build } 
+
+  #show_review
+    - unless @book.reviews.active.empty?
+      = render :partial => 'reviews/review', :collection => @book.reviews.active.sort_by { |r| r.votes_result }.reverse
+
+  - if current_user
+    = report_box @book
+    %div{ :id => "bookbox_#{@book.id}",:style => 'display: none;'}
+      = render :partial => 'books/add_to_list'
+  - else
+    = login_box @book  
+
+

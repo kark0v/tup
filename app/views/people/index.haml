@@ -1,0 +1,51 @@
+- title "#{@page.capitalize} Community Members"
+- section 'people'
+
+= render :partial => 'subnavs/people'
+			
+- content_for :sidebar do
+  /= render :partial => 'invite_friends', :layout => '/layouts/sidebox', :locals => { :title => 'Invite Friends' }     
+  = render :partial => 'recently_joined', :layout => '/layouts/sidebox', :locals => { :title => 'Who is joining?' }
+  - if current_user
+    = render :partial => 'sidebar_network', :layout => '/layouts/sidebox', :locals => { :title => "Your network", :person => current_user }
+
+.one-column		
+  %h2.title 
+    = h @page.capitalize
+    Community Members
+
+  - if @page == 'browse'
+    %div.actions
+      %ul.user_actions
+        %li Sort by
+        %li= link_to 'Name', people_path(:sort => "name")
+        %li= link_to 'Ranking', people_path(:sort => "ranking")
+				
+  - unless @page_header_line.nil?
+    %p
+      = @page_header_line
+      - if @people.empty?
+        - if params[:search].nil?
+          = search_form 'by name', people_path, 'People', false
+        - else
+          = search_form params[:search], people_path, 'People', false
+					
+  - unless @people.empty?		
+    %ul.objects.people
+      - @people.each do |person|
+        %li{person.featured ? { :class => 'featured' } : {} }
+          .people_block
+            .info
+              %h3.name
+                %a{:href => person_url(person)}
+                  = h person.name
+              .points
+                = h person.total_points
+                UX Points
+            .image
+              %a{:href => person_url(person)}
+                = image_tag person.photo.url(:thumb)
+    .clear
+
+    = will_paginate @people
+

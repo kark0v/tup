@@ -1,0 +1,8 @@
+.two-columns-bar
+  %ul
+    %li{(page == 'show') ? { :class => "selected" } : {} }= link_to_function 'All', "return false;"	
+    %li{(page == 'show') ? { :class => "selected" } : {} }= link_to_function 'Unread', "return false;"
+    %li{(page == 'show') ? { :class => "selected" } : {} }= link_to_function 'Started by Others', "return false;"	
+    %li{(page == 'show') ? { :class => "selected" } : {} }= link_to_function 'Started by Me', "return false;"	
+		
+		  

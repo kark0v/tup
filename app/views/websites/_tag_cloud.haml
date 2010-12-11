@@ -1,0 +1,2 @@
+- tag_cloud Website.tag_counts.sort_by(&:count).reverse[0,12], %w(relevance1 relevance2 relevance3 relevance4) do |tag, css_class|
+  = link_to tag.name, websites_path(:tag => tag.name), :class => css_class

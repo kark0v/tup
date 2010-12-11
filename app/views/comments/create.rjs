@@ -1,0 +1,10 @@
+page.show 'comments_header'
+page.insert_html :bottom, "show_comment#{@review.id}", :partial=> 'comment', :object => @comment
+page["comment_form#{@review_id}"].reset
+page.replace_html "comments_count#{@review.id}", "#{pluralize(@review.comments.active.count, 'Comment')} #{link_to_function 'Add Comment', 'new_review_comment('+@review.id.to_s+')', :class => 'add'+@review.id.to_s}"
+page.insert_html :bottom, "show_comment#{@review.id}", "#{link_to_function 'Add Comment', 'new_review_comment('+@review.id.to_s+')', :class => 'add'+@review.id.to_s}"
+page << "toggle_div_display('new_comment#{@review.id}')"
+page << "show_comments('show_comment#{@review.id}')"
+page.visual_effect :highlight, "comment#{@comment.id}", :duration => 3
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard

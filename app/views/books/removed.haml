@@ -1,0 +1,47 @@
+- title 'Removed Book'
+- section 'books'
+
+= render :partial => 'subnavs/books'
+
+- content_for :sidebar do
+  - unless Book.tag_counts.empty?
+    = render :partial => 'tag_cloud', :layout => '/layouts/sidebox', :locals => { :title => 'Books Cloud' }
+  - unless Book.recently_submited.empty?
+    = render :partial => 'recently_submitted', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Submitted' }
+  - unless Review.books_recently_reviewed.empty?
+    = render :partial => 'recently_reviewed', :layout => '/layouts/sidebox', :locals => { :title => 'Recently Reviewed' }
+
+.one-column	
+  %h2.title
+    Book
+
+  %p= "The book you are trying to see is not available for one or more of the following reasons:"
+
+  %ul
+    %li - Is currently being reviewed
+    %li - Was removed by inaccurate information
+    %li - Was removed by offensive content
+    %li - Was removed by duplication
+
+  %p= "If you submitted this Book and/or have an enquire, please #{link_to 'contact us', contactus_path}."
+
+  - unless @books.empty?		
+    %h2.second_title 
+      Featured Books
+
+    %ul.books.objects
+      - @books.each do |book|
+        %li
+          .image
+            %a{:href => book_url(book)}
+              = image_tag book.photo.url(:thumb)
+          %h3
+            %a{:href => book_url(book)}
+              = h book.title
+          .author
+            = h book.author
+          - unless book.tags.empty?
+            .label
+              - for tag in book.tags
+                = link_to tag.name, books_path(:tag => tag.name)
+    .clear

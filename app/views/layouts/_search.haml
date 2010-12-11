@@ -1,0 +1,21 @@
+- case yield(:section)
+  - when 'websites' then @selected = 1
+  - when 'people' then @selected = 2
+  - when 'jobs' then @selected = 3
+  - when 'books' then @selected = 4
+  - when 'inbox' then @selected = 5
+  - else @selected = 1
+
+- default_value ||= 'Search'
+- form_tag url_for( :controller => "home", :action => "search"), :method => :get, :name => 'searchForm' do
+  #fields
+    = text_field_tag 'search', default_value, :id => "search", :autocomplete => "off", :class => "txtsearch", :onblur => "if (this.value == '') { this.value = this.defaultValue;} ", :onfocus => "this.value === this.defaultValue && (this.value = '');" 
+    = select('section', "id", { "Websites" => 1, "People" => 2, "Jobs" => 3, "Books" => 4}, :selected => @selected, :include_blank => false)   
+  #button
+    = image_submit_tag '/images/btn_go.png', :class => 'go', :onclick => "if ($('search').value == $('search').defaultValue) {$('search').value = ''; } document.searchForm.submit(); return false;"
+  .clear
+
+/    - if current_user
+/      = select('section', "id", { "Websites" => 1, "People" => 2, "Jobs" => 3, "Books" => 4, "Conversations" => 5}, :selected => @selected, :include_blank => false)
+/    - else
+/      = select('section', "id", { "Websites" => 1, "People" => 2, "Jobs" => 3, "Books" => 4}, :selected => @selected, :include_blank => false)

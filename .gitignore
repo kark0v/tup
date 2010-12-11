@@ -1,0 +1,9 @@
+log/*.log
+db/*.sqlite3
+public/photos/*
+tmp/*
+public/stylesheets/application.css
+#Ignore jedit backup files
+*~
+db/schema.rb
+vendor/plugins/haml/init.rb

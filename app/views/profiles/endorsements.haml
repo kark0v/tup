@@ -1,0 +1,62 @@
+- title 'My Profile :: Endorsements'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2.title
+    My Endorsements
+
+  - unless @person.endorsements.accepted.empty? and @person.endorsements.pending.empty?
+    %ul.endorsements
+      - @person.endorsements.accepted.each do |endorsement|
+        %li
+          .right
+            .date
+              = h endorsement.created_at.strftime("%b #{endorsement.created_at.day.ordinalize}, %Y")
+            %a{:href => person_path(endorsement.endorser)}
+              = image_tag endorsement.endorser.photo.url(:thumb)
+            %ul.info-actions
+              %li= "Accepted (Edit)"
+              %li= "Hidden (Edit)"
+              %li= "Refused (Edit)"
+          .left
+            .title
+              %a{:href => person_path(endorsement.endorser)}
+                = endorsement.endorser.name
+              said:
+            = RedCloth.new(endorsement.body).to_html
+          .clear
+  - else
+    %p No endorsement received. Go and make some remarkable work!
+
+  - unless current_user != @person or @person.endorsements.pending.empty?
+    %h3 Pending endorsements
+    %ul
+      - @person.endorsements.pending.each do |endorsement|
+        %li
+          .right
+            .date
+              = h endorsement.created_at.strftime("%b #{endorsement.created_at.day.ordinalize}, %Y")
+            %a{:href => person_path(endorsement.endorser)}
+              = image_tag endorsement.endorser.photo.url(:thumb)
+            %ul.info-actions
+              %li= link_to 'accept', accept_endorsement_path(endorsement), :method => :put
+              %li= link_to 'refuse', refuse_endorsement_path(endorsement), :method => :put
+          .left
+            .title
+              %a{:href => person_path(endorsement.endorser)}
+                = endorsement.endorser.name
+              said:
+            = RedCloth.new(endorsement.body).to_html
+          .clear           
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'general', :page => 'endorsements' }
+

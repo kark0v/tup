@@ -1,0 +1,34 @@
+- title 'My Settings :: Remove Account'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    Remove Account
+
+  %p
+    Are you sure you want to deactivate your account?
+
+  %p
+    Removing you account will implicate that you won't be able insert, edit, review or comment on The Usability Page. Your personal information, points, messages won't be visible or acessible anymore and can't be recovered. However your submissions and previous reviews and comment will be available to The Usability Page users.
+
+  - form_for @person, :url => remover_profile_path, :html => { :method => :put } do |f|
+    = f.error_messages
+
+    %p
+      = f.check_box :hidden
+      = f.label :hidden, "Check this box to confirm your intention to remove your account."
+
+    %p
+      = f.submit  'Remove Account'
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'settings', :page => 'remove' }
+

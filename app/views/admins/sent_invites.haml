@@ -1,0 +1,27 @@
+- title 'Administration :: Pending Invites'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  %h2.title
+    Sent invites
+  
+  - if @people.empty?
+    %p There are no sent invites.
+  
+  - else
+    %table
+      %thead
+        %tr
+          %th Email
+          %th Date Requested
+          %th Last login
+          %th Re-send
+      %tbody    
+      - @people.each do |p|
+        %tr
+          %td= p.email
+          %td= p.created_at.strftime('%b %e, %r')
+          %td= p.last_login_at
+          %td= link_to 'Resend invite', :action => :resend_invite, :id => p.id

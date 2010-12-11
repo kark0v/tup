@@ -1,0 +1,28 @@
+- title 'Login'
+- section 'misc'
+
+.one-column
+  %h2.title 
+    Login
+  
+  - form_for @person_session,:html => {:class => "frm"}, :url => person_session_path do |f|
+    = f.error_messages
+
+    %p
+      = f.label :email
+      = f.text_field :email, :class => 'required validate-email'
+      %span Please use the email you signed up with.
+
+    %p
+      = f.label :password
+      = f.password_field :password, :class => 'required'
+      %span= link_to 'Forgot your password?', lostpwd_path
+    %p
+      = f.submit 'Log In'
+
+    %h3 Not a member?
+    %p
+      Go to our 
+      = succeed '.' do
+        = link_to 'sign up page', new_person_path
+    

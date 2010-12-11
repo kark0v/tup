@@ -1,0 +1,36 @@
+- title 'My Profile :: My Favorite Jobs'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Favorite Job Proposals
+
+  - if @jobs.empty?
+    %p= "You haven't marked any job proposal as favorite yet."
+    %p= link_to "Go Browse Now!", jobs_path
+  - else
+    %ul.jobs
+      - @jobs.each do |job|
+        %li{job.featured ? { :class => "featured" } : {} }
+          .date.particle
+            = h job.deadline_at.strftime("%b #{job.deadline_at.day.ordinalize}, %Y")
+          %a{:href => job_url(job)}
+            = h job.role
+          %span.particle at
+          = h job.company
+          %span.particle in
+          = h job.location
+						
+    = will_paginate @jobs
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'jobs', :page => 'favs' }
+

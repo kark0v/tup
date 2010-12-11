@@ -1,0 +1,35 @@
+- title 'Administration :: Endorsements'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  %h2.title
+    All Endorsements
+
+  - if @endorsements.empty?
+    %p There are no endorsements between The Usability Page members.
+  - else
+    %table
+      %tr
+        %td ID
+        %td Body
+        %td Endorser Name
+        %td Endorsee Name
+        %td Creation Date
+        %td Actions
+      %ul.endorsements
+        - @endorsements.each do |endorsement|
+          %tr
+            %td= endorsement.id
+            %td= endorsement.body
+            %td= link_to endorsement.endorser.name, person_path(endorsement.endorser)
+            %td= link_to endorsement.endorsee.name, person_path(endorsement.endorsee)
+            %td= endorsement.created_at
+            %td
+              %table
+                %tr= link_to 'See Details', endorsement_path(endorsement)
+                %tr= link_to 'Accept', accept_endorsement_path(endorsement), :method => :put
+                %tr= link_to 'Refuse', refuse_endorsement_path(endorsement), :method => :put
+                %tr= link_to 'Remove', endorsement_path(endorsement), :confirm => 'Are you sure?', :method => :delete
+

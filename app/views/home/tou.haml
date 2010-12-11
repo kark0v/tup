@@ -1,0 +1,27 @@
+- content_for :title, 'Terms of Use'
+- content_for :section, 'misc'
+
+- content_for :sub_nav do 
+  = render :partial => 'subnav_misc' 
+		
+- content_for :sidebar do     
+  = render :partial => 'tou_sidebox', :layout => '/layouts/sidebox', :locals => { :title => 'Read Carefully' }  
+
+.one-column			
+  %h2.title
+    Terms of Use
+	
+  %p
+    <strong>The Usability Page</strong> is currently in its beta phase of development, so no Terms of Use have been defined yet.
+    Use it at your own discrition, but keep in mind that this is a community driven website, don't forget to respect other users!
+  %p
+    We want to thank you for helping us test and improve <strong>The Usability Page</strong>! We hope you have fun while using it and that
+    you can take the most of it!
+  %p
+    Keep in mind that liberty is a right but also a duty. <strong>The Usability Page</strong> team is watching you,
+    and is happy to help you with any issues that you have. Report buttons are spread around the different pages. If you see something that you
+    you don't feel is right, let us know!
+    
+  %p
+    Thank you for reading this far... now go show, review, and comment!
+    

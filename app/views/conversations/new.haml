@@ -1,0 +1,32 @@
+- title 'Compose'
+- section 'inbox'
+
+- content_for :sub_nav do 
+  %ul
+    %li= link_to 'Conversations', conversations_path
+    %li= link_to 'Notifications', notifications_inbox_path
+    %li= link_to 'Suggestions', suggestions_inbox_path
+
+.one-column		
+  %h2.title 
+    Create a New Conversation
+			
+  - form_for(@conversation, :html => { :class => "frm"} ) do |f|
+
+    %p
+      = label_tag :person_id, 'To'
+      = model_auto_completer("person[name]", "", "person_id", "", {}, {}, {})
+		
+    %p
+      = f.label :title, 'Subject'
+      = f.text_field :title
+
+    - fields_for 'conversation[initial_message]' do |m|
+      %p
+        = m.hidden_field :person_id, :value => current_user.id
+        = m.label :body, "Body"
+        = m.text_area :body
+
+    %p
+      = f.submit 'Send message'
+      = link_to 'Cancel', conversations_path

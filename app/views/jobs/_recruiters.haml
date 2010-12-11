@@ -1,0 +1,7 @@
+%ul.tiny_squares
+  - Person.recruiters(8).each do |person|
+    %li
+      %a{:href => person_url(person), :title => person.name }
+        = image_tag person.photo.url(:small)
+.see_all
+  = link_to 'See All', recruiters_people_path

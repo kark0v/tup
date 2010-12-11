@@ -1,0 +1,16 @@
+<p>Hello <%=h @comment.review.person.name %>!</p>
+
+<p><%= link_to h(@comment.person.name), person_url(@comment.person) %> just added a comment to your <%= @comment.review.reviewed_object.class.to_s %>'s review on The Usability Page.</p>
+
+<p>
+  Have a look at it on 
+  <a href="http://www.theusabilitypage.com/">The Usability Page</a>
+  website!
+</p>
+
+<p>
+  ---<br />
+  The Usability Page Team
+</p>
+
+<p>This message was intended for <%=h @comment.review.person.email %>. If you do not wish to receive this type of email from The Usability Page in the future, go to your profile and configure your notification settings.</p>

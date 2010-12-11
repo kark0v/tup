@@ -1,0 +1,4 @@
+page.replace_html :reviews_count, :partial => 'reviews/reviews_count', :locals => { :element => (@website||@book) } 
+page.visual_effect(:fade, "review#{@review.id}", :duration => 0.5)
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard

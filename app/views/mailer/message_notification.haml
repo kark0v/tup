@@ -1,0 +1,12 @@
+- succeed " said:" do
+  = @message.person.name
+
+= @message.body
+
+
+%p 
+  --
+  The Usability Page Team 
+
+%p== This message was intended for #{@message.person.email}. If you do not wish to receive this type of email from The Usability Page in the future, go to your profile and configure your notification settings.
+

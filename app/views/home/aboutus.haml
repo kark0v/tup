@@ -1,0 +1,84 @@
+- content_for :title, 'About Us'
+- content_for :section, 'misc'
+
+- content_for :sub_nav do 
+  = render :partial => 'subnav_misc' 
+		
+- content_for :sidebar do     
+  - unless @tup_members_favs.empty?
+    = render :partial => 'our_fav_books', :layout => '/layouts/sidebox', :locals => { :title => 'The Usability Page Team Favorite Books' } 
+
+.one-column		
+  %h2.title 
+    About Us
+  %p.undertitle
+    Who is who behind The Usability Page.
+				
+  %h2.subtitle 
+    The Usability Page Team
+  %p.undertitle	
+    We are a group of creative and dynamic lovers of usability and web development.  	
+
+  %ul.objects.aboutus	
+    - @tupmembers.sort_by(&:name).each do |person|
+      %li
+        .top
+          .photo
+            %a{:href => person_url(person), :title => person.name }
+              = image_tag person.photo.url(:thumb)
+          %h3.name
+            %a{:href => person_url(person), :title => person.name }
+              = person.name	
+        .desc				   
+          .position
+            Web Developer
+          .link
+            @developer
+          .link
+            = link_to person.homepage, person.homepage, :target => :new
+          %p
+            = person.tup_description
+    .clear
+
+  %h2.subtitle 
+    Collaborators
+  %p.undertitle	
+    People that actively helped or are currently helping us to make The Usability Page as great as it is.
+
+  %ul.objects.aboutus			
+    - @collaborators.sort_by(&:name).each do |person|
+      %li
+        .top
+          .photo
+            %a{:href => person_url(person), :title => person.name }
+              = image_tag person.photo.url(:thumb)
+          %h3.name
+            %a{:href => person_url(person), :title => person.name }
+              = person.name	
+        .desc				   
+          = link_to person.homepage, person.homepage, :target => :new
+          %p
+            = person.tup_description
+    .clear
+	
+  %h2.subtitle 
+    Top Community Members
+  %p.undertitle	
+    Because without your contribution The Usability Page would not rock as much as it does.
+
+  %ul.objects.people				
+    - @topmembers.each do |person|
+      %li
+        .people_block
+          .info
+            %h3.name
+              %a{:href => person_url(person)}
+                = h person.name
+            .points
+              = h person.total_points
+              UX Points
+          .image
+            %a{:href => person_url(person)}
+              = image_tag person.photo.url(:thumb)
+    .clear
+

@@ -1,0 +1,22 @@
+%div{ :id => "loginbox_#{element.class.class_name.downcase}_#{element.id}",:style => 'display: none;'}
+  %h2 
+    Login 
+  %p
+    The action that you are trying to access requires authentication. Please, log in using the form below or 
+    = link_to 'Sign-up!', signup_path
+
+  - form_for(@person_session, :html => { :id => "login_box", :class => "frm"  }, :url => person_session_path) do |f|
+    = f.error_messages
+
+    %p
+      = f.label :email
+      = f.text_field :email, :class => 'required validate-email'
+
+    %p
+      = f.label :password
+      = f.password_field :password, :class => 'required'
+      %span= link_to 'Forgot your password?', lostpwd_path
+
+    %p
+      = f.submit 'Log In'
+      = link_to 'Cancel', "#", :onclick => "facebox.close(); return false;"

@@ -1,0 +1,9 @@
+- title 'Page not Found'
+- section controller_name
+
+.one-column
+  %p
+    == The #{controller_name.singularize} you were looking for was not found.
+  
+  %p
+    == Maybe you should try looking in the #{link_to controller_name+" directory", send(controller_name+"_path")}?

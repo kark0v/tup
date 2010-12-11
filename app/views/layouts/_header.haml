@@ -1,0 +1,47 @@
+#header
+  #notice
+    = render :partial => '/layouts/notice'
+
+  #access
+    %ul
+      - if current_user.nil?
+        %li= link_to image_tag("btn_login.png", :alt => "Login"), login_path
+        %li= link_to image_tag("btn_signup.png", :alt => "Signup") , new_person_path
+      - else
+        %li= link_to image_tag("btn_logout.png", :alt => "Logout"), person_session_path(current_user_session.id), :method => :delete
+  .clear
+
+  #logosearch
+    #logo
+      = link_to image_tag('/images/usability-logo-beta.png'), root_path
+    #searchbox{:class => (yield(:section) || "").downcase}
+      = render :partial => '/layouts/search', :locals => { :default_value => params[:search] ? params[:search] : nil }
+    .clear
+
+
+  #nav
+    - if !current_user.nil?
+      #nav_account
+        %ul
+          %li= link_to 'inbox', notifications_inbox_path
+          %li= link_to current_user.name, profile_path
+          - if current_user.has_role? 'tup_member'
+            %li= link_to 'Adminstration', admin_path(current_user.id)
+
+
+    #nav_sections
+      %ul
+        %li= link_to 'websites', websites_path
+        %li= link_to 'books', books_path
+        %li= link_to 'jobs', jobs_path
+        %li= link_to 'community', people_path
+        .clear
+
+
+  #sub_nav
+    = yield :sub_nav
+
+  - if flash[:persistent_message]
+    #flash-persistent-message
+      = flash[:persistent_message]
+

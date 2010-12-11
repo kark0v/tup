@@ -1,0 +1,5 @@
+ul.logs, ul.logs ul { margin: 5px 20px; padding: 10px; }
+ul.logs li { margin-bottom: 5px; }
+ul.logs li { font-weight: bolder; font-size: 18px; }
+ul.logs li ul li { list-style: disc; font-weight: normal; font-size: 14px; }
+span.type { font-weight: bold;}

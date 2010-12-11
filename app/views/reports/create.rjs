@@ -1,0 +1,4 @@
+page[:new_report].reset
+page.call 'facebox.close'
+page.replace_html :notice, :partial => 'layouts/notice', :locals => { :element => flash[:notice] } 
+flash.discard  

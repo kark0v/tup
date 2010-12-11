@@ -1,0 +1,42 @@
+- title 'My Profile :: Followings'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Followings
+
+  - unless @followed.reject { |person| person.hidden }.empty?
+    %ul.objects.people
+      - @followed.reject { |person| person.hidden }.sort_by(&:name).each do |person|
+        %li{person.featured ? { :class => 'featured' } : {} }
+          .people_block
+            .info
+              %h3.name
+                %a{:href => person_url(person)}
+                  = h person.name
+              .points
+                = h person.total_points
+                UX Points
+            .image
+              %a{:href => person_url(person)}
+                = image_tag person.photo.url(:thumb)
+    .clear
+    = will_paginate @followed
+  - else
+    You are currently not following anybody.
+    Go
+    %a{:href => people_url}
+      browse our community members
+    or invite your friends and colleges to join our community.
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'network', :page => 'followings' }
+

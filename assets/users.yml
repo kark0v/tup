@@ -1,0 +1,51 @@
+tup:
+  name: The Usability Page
+  email: theusabilitypage@gmail.com
+  homepage: www.theusabilitypage.com
+  type: member
+	
+felipe:
+  name: Felipe Ávila da Costa
+  email: felipeacosta@gmail.com
+  homepage: felipeacosta.com
+  type: member
+
+simao:
+  name: Simão Belchior
+  email: simaobelchior@gmail.com
+  homepage: simaobelchior.com
+  type: member
+	
+ahmad:
+  name: Ahmad Hammad
+  email: ahmad@gmail.com
+  homepage: ahmad.com
+  type: member
+	
+gradim:
+  name: João Gradim
+  email: gradim@gmail.com
+  homepage: gradim.com
+  type: member
+	
+wiki:
+  name: Hugo Peixoto
+  email: hugo.peixoto@gmail.com
+  homepage: hugopeixoto.net
+  type: collaborator	
+
+levi:
+  name: Levi Figueira
+  email: levi@levifig.net
+  homepage: levifig.net
+  type: collaborator
+
+mario:
+  name: Mário Carneiro
+  email: hugopeixoto+mario@gmail.com
+  homepage: hugopeixoto.net
+
+seraphim:
+  name: Seraphim Eisenga
+  email: hugopeixoto+seraphim@gmail.com
+  homepage: hugopeixoto.net

@@ -1,0 +1,43 @@
+- title 'Removed Website'
+- section 'websites'
+
+= render :partial => 'subnavs/websites'
+
+.one-column							
+  %h2.title 
+    Website Removed
+
+  %p= "This Website was removed by the Administration due one or more of the following itens:"
+
+  %ul
+    %li - Inaccurate Information
+    %li - Offensive Content
+    %li - Duplication
+
+  %p= "If you submitted this Website and/or have an enquire, please #{link_to 'contact us', contactus_path}."
+
+  - unless @websites.empty?		
+    %h2.second_title 
+      Featured Websites
+
+    %ul.websites.objects
+      - @websites.each do |website|
+        %li{website.featured ? { :class => "featured" } : {} }
+          .website_block
+            %h3
+              %a{:href => website_url(website)}
+                = h website.name
+            .by
+              by
+              %a{:href => person_url(website.person)}
+                = h website.person.name
+            .image
+              %a{:href => website_url(website)}
+                - if website.screenshots.empty?
+                  = image_tag('/images/default_website_s.png')
+                - else
+                  = image_tag website.screenshots.first.photo.url(:thumb)
+            .label
+              - for tag in website.tags
+                = link_to tag.name, websites_path(:tag => tag.name)
+    .clear

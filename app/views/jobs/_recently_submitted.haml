@@ -1,0 +1,11 @@
+%ul.recently_submited
+  - Job.recently_submited(3).each do |job|
+    %li
+      .title
+        %a{:href => job_url(job), :title => "#{job.role} at #{job.company} in #{job.location}" }
+          = job.role
+      .author
+        = job.company
+
+.see_all
+  = link_to "See All", jobs_path(:type => "latest")

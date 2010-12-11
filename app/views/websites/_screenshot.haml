@@ -1,0 +1,5 @@
+.new_screenshot
+  - fields_for "website[screenshots_fields][]", screenshot  do |s|
+    %p
+      = s.file_field :photo, :class => 'file'
+      = link_to_function "Remove", "$(this).up('.new_screenshot').remove()"

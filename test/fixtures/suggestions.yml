@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  suggester_id: 1
+  suggest_to_id: 1
+  job_id: 1
+
+two:
+  suggester_id: 1
+  suggest_to_id: 1
+  job_id: 1

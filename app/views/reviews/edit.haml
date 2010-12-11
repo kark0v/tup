@@ -1,0 +1,16 @@
+- title "Edit Review"
+- section "reviews"
+
+.one-column
+  - form_for(@review) do |f|
+    = f.error_messages
+    
+    %p
+      = f.label :body
+      %br
+      = f.text_area :body
+      %span You can use #{link_to 'Textile syntax', 'http://textism.com/tools/textile/', :targed => "_blank"}
+
+    %p
+      = f.submit 'Update' 
+

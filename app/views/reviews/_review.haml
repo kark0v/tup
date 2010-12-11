@@ -1,0 +1,72 @@
+/- rieject(&:new_record?).each do |r|
+.review_block{:id => "review#{review.id}"}
+  - unless review.person.nil?
+    .date
+      = h review.created_at.strftime("%b #{review.created_at.day.ordinalize}, %Y")
+      
+    .author
+      %a{:href => person_url(review.person), :title => review.person.name }
+        =h review.person.name
+    .clear
+    
+    %div.review_content
+      = RedCloth.new(review.body).to_html
+
+    .votes{:id => "votes_review#{review.id}"}
+      = pluralize(review.votes_result, 'point') 
+      from
+      = review.votes.size
+      votes
+      - if current_user
+        - if review.person.id != current_user.id
+          - if review.voted_by_person?( current_user.id ) and review.voted_negative?( current_user.id )
+            = link_to_remote "<div class='negative selected'>-</div>", :url => review_votes_url(review.id, {:vote => false}), :method => :post
+          - else          
+            = link_to_remote "<div class='negative'>-</div>", :url => review_votes_url(review.id, {:vote => false}), :method => :post
+        
+          - if review.voted_by_person?( current_user.id ) and review.voted_positive?( current_user.id )
+            = link_to_remote "<div class='positive selected'>+</div>", :url => review_votes_url(review.id, {:vote => true}), :method => :post
+          - else          
+            = link_to_remote "<div class='positive'>+</div>", :url => review_votes_url(review.id, {:vote => true}), :method => :post              
+            
+
+                  
+    .review_actions
+      .div{ :id => "comments_count#{review.id}"}
+        - if review.comments.active.count > 0
+          = pluralize(review.comments.active.count, 'Comment')
+        - if current_user
+          = link_to_function "Add Comment", "new_review_comment(#{review.id})", :class => "add#{review.id}"
+        - else
+          = link_to 'Add Comment', "#loginbox_review_#{review.id}", :rel => "facebox"  
+    
+    
+      - if current_user == review.person      
+        = link_to 'Edit', edit_review_path(review)
+      - if current_user and (current_user.has_role? 'tup_member' or current_user == review.person)
+        = link_to_remote 'Destroy', :url => review_url(:id => review.id), :confirm => 'Are you sure?', :method => :delete
+      - if current_user
+        - if current_user != review.person
+          = link_to 'Report', "#reportbox_review_#{review.id}", :rel => "facebox"
+      - else
+        = link_to 'Report', "#loginbox_review_#{review.id}", :rel => "facebox"  
+    .clear
+        
+    %div{ :id => "show_comment#{review.id}", :style => "display: block;"}
+      - unless review.comments.active.empty?
+        %h2{ :id=> "comments_header", :class => "subtitle", :style => "display: block;"}
+          Comments
+        = render :partial => 'comments/comment', :collection => review.comments.active
+        - if current_user
+          = link_to_function "Add Comment", "new_review_comment(#{review.id})", :class => "add#{review.id}"
+        - else
+          = link_to 'Add Comment', "#loginbox_review_#{review.id}", :rel => "facebox"  
+      - else
+        %h2{ :id=>"comments_header", :class => "subtitle", :style => "display: none;"}
+          Comments        
+    = render :partial => 'comments/new', :locals => { :review => review, :comment => review.comments.build }    
+
+    - if current_user
+      = report_box review
+    - else
+      = login_box review     

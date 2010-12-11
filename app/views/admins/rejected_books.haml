@@ -1,0 +1,16 @@
+- title 'Administration :: Rejected books'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  %h2.title
+    All rejected books
+
+  - if @books.empty?
+    There are no rejected books in The Usability Page
+  - else
+    %ul
+    - @books.each do |book|
+      %li= link_to book.title, :action => 'review_book', :id => book.id
+

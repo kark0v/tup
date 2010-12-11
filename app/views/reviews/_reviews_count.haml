@@ -1,0 +1,13 @@
+= pluralize(element.reviews.active.count, 'Review')
+so far. 
+- if element.reviews.active.count == 0
+  - if current_user
+    = link_to_function 'Be the first to review it!', "toggle_div_display('new_review')"
+  - else
+    = link_to 'Be the first to review it!', "#loginbox_#{element.class.name.downcase}_#{element.id}", :rel => "facebox"	
+- else
+  - if current_user
+    = link_to_function 'Add another review!', "new_review()", :id => 'add_review'
+  - else
+    = link_to 'Add another review!', "#loginbox_#{element.class.name.downcase}_#{element.id}", :rel => "facebox"	
+  

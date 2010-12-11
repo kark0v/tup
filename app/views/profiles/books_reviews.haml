@@ -1,0 +1,48 @@
+- title 'My Profile :: My Book Reviews'
+- section 'people'
+
+- content_for :sub_nav do
+  %ul
+    %li= link_to 'General', profile_path
+    %li= link_to 'Network', updates_profile_path
+    %li= link_to 'Websites', websites_submissions_profile_path
+    %li= link_to 'Jobs', jobs_submissions_profile_path
+    %li= link_to 'Books', books_submissions_profile_path
+    %li= link_to 'Settings', privacy_profile_path
+
+.two-columns-body
+  %h2
+    My Books Reviews
+
+  - if @books_reviews.empty?
+    %p= "You hadn't made any book reviews yet."
+    %p= "Don't tell me that you don't have an opinion! #{link_to "Go browse", websites_path} and share your thoughts."
+  - else
+    %ul.reviews
+      - @books_reviews.each do |review|
+        %li
+          .right
+            .date
+              = h review.created_at.strftime("%b #{review.created_at.day.ordinalize}, %Y")
+            %a{:href => book_path(review.book_id)}
+              = image_tag review.book.photo.url(:thumb)
+            %ul.info-actions
+              %li
+                %a{:href => book_path(review.book_id, :anchor => "review#{review.id}")}
+                  View (#{pluralize(review.comments.active.count, 'Comment')})
+              %li
+                = pluralize(review.votes_result, 'point')
+                from
+                = review.votes.size
+                votes
+          .left
+            .title
+              %a{:href => book_path(review.book_id)}
+                = review.book.title
+            = RedCloth.new(review.body).to_html
+          .clear
+
+  = will_paginate @books_reviews
+
+= render :partial => 'sidebar', :locals => { :element => @person, :section => 'books', :page => 'reviews' }
+

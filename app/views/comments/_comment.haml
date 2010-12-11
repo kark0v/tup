@@ -1,0 +1,31 @@
+/- rieject(&:new_record?).each do |r|
+.comment_block{:id => "comment#{comment.id}"}
+  - unless comment.person.nil?
+    .comment_actions
+      %ul		 
+        - if current_user == comment.person
+          %li= link_to 'Edit', edit_comment_path(comment)
+        - if current_user and (current_user.has_role? 'tup_member' or current_user == comment.person)
+          %li= link_to_remote 'Destroy', :url => comment_url(:id => comment.id), :confirm => 'Are you sure?', :method => :delete
+        - if current_user
+          - if current_user != comment.person
+            %li= link_to 'Report', "#reportbox_comment_#{comment.id}", :rel => "facebox"
+        - else
+          %li= link_to 'Report', "#loginbox_comment_#{comment.id}", :rel => "facebox"			
+						
+    .comment_content
+      = RedCloth.new(comment.body).to_html
+			
+    .comment_author
+      %ul
+        %li
+          %a{:href => person_url(comment.person), :title => comment.person.name }
+            =h comment.person.name
+        %li
+          = h comment.created_at.strftime("%b #{comment.created_at.day.ordinalize}, %Y")
+    .clear
+			
+    - if current_user
+      = report_box comment
+    - else
+      = login_box comment 		

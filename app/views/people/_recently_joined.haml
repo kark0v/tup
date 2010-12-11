@@ -1,0 +1,18 @@
+%ul.recently_joined
+  - Person.recently_joined(3).each do |person|
+    %li
+      %a{:href => person_url(person), :title => person.name }
+        = image_tag person.photo.url(:thumb)
+      .info
+        %span.fn
+          %a{:href => person_url(person), :title => person.name }
+            = person.name
+        - if current_user and current_user != person
+          - unless current_user.follows?(person)
+            %span.follow
+              = link_to 'Follow', follow_person_path(person), :method => :put
+      .clear
+
+
+.see_all
+  = link_to 'See All', newbies_people_path

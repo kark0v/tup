@@ -1,0 +1,107 @@
+- content_for :title, 'Making a Better Web'
+- content_for :section, 'misc'
+
+.block#what
+  %h2 For Usability Enthusiasts, Web developers, Interface designers...
+  
+  %ul
+    %li
+      %h4 Showcase your work
+      %p Post your latest and greatest work to gain exposure and see what others have to say about it.
+    
+    %li  
+      %h4 Get professional feedback
+      %p Gather quality feedback and expert advice from other professionals and usability enthusiasts.
+      
+    %li  
+      %h4 Network &amp; communicate
+      %p Meet and get to know other usability enthusiasts and user-experience experts.
+    
+    %li
+      %h4 Enhance your career
+      %p Get the latest job vacancies in your field or simply expose your talent to recruiters and creative industry leaders.
+    .clear  
+  - if current_user.nil?		
+    .signup
+      %a{ :href => new_person_path }
+        = image_submit_tag '/images/signup_pink.png', :class => 'button', :id => 'signup_pink'
+
+.clear
+  
+.block#latestwebsites
+  %h3 Latest Websites
+  %ul
+    - Website.recently_submited(5).each do |website|
+      %li
+        %a{:href => website_url(website), :title => website.name }
+          - if website.screenshots.empty?
+            = image_tag('/images/default_website_t.png')
+          - else
+            = image_tag website.screenshots.first.photo.url(:small)
+  .more
+    %a{:href => websites_url, :title => "More Websites" }						
+.clear					
+
+
+.block#latestcontributors
+  %h3 Latest Contributors
+  %ul
+    - Person.latest_contributors(3).each do |person|
+      %li
+        - link_to person_path(person) do
+          = image_tag person.photo.url(:thumb)
+          %span.name= person.name
+        %span.action
+          = latest_contributor_action(person.latest_action)
+  .more
+    %a{:href => people_url, :title => "More People" }		
+.clear		
+
+.block#submitjob
+  %h3 Post a job here. It will be seen by thousands of usability enthusiasts!
+  %a{ :href => new_job_url }
+    = image_submit_tag '/images/btn_postjob.png', :class => 'button', :id => 'postJob'
+  
+.block#latestjobs
+  %h3 Latest Jobs
+  %ul
+    - Job.recently_submited(4).each do |job|
+      %li
+        %span.title
+          %a{:href => job_url(job), :title => job.role }
+            = job.role
+        at
+        %span.company
+          = job.company
+        in
+        %span.location
+          = job.location
+  .more	
+    %a{:href => jobs_url, :title => "More Jobs" }				
+.clear
+  
+.block#favbooks
+  %h3 Books Recommended By Users
+  %ul
+    - Book.featured(4).sort_by{rand}.each do |book|
+      %li
+        .image
+          %a{:href => book_url(book)}
+            = image_tag book.photo.url(:thumb)
+        %h5
+          %a{:href => book_url(book)}
+            = h book.title
+        .author
+          = h book.author
+  .more
+    %a{:href => books_url, :title => "More Books" }			
+  .clear		
+.clear
+
+- content_for :css_includes do
+  = stylesheet_link_tag 'home'
+
+- content_for :javascript_includes do
+  = javascript_include_tag 'cufon-yui.js'
+  = javascript_include_tag 'caviar-dreams_500.font.js'
+  = javascript_include_tag 'home.js'

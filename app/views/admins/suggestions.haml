@@ -1,0 +1,43 @@
+- title 'Administration :: Suggestions'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  %h2.title
+    All Suggestions
+
+  %div.actions
+    %ul.user_actions
+      %li Filters:
+      %li= link_to_function 'All', "inbox_filter('all'); return false;"
+      %li= link_to_function 'Unseen', "inbox_filter('unseen'); return false;"
+      %li= link_to_function 'People', "inbox_filter('people'); return false;"
+      %li= link_to_function 'Websites', "inbox_filter('websites'); return false;"
+      %li= link_to_function 'Jobs', "inbox_filter('jobs'); return false;"
+      %li= link_to_function 'Books', "inbox_filter('books'); return false;"
+
+  - if @suggestions.empty?
+    %p There are no suggestions between The Usability Page members.
+  - else
+    %table
+      %tr
+        %td ID
+        %td Type
+        %td Suggester Name
+        %td Suggest_to Name
+        %td Creation Date
+        %td Actions
+      %ul
+        - @suggestions.each do |suggestion|
+          %tr
+            %td= suggestion.id
+            %td
+            %td= link_to suggestion.suggester.name, person_path(suggestion.suggester)
+            %td= link_to suggestion.person.name, person_path(suggestion.person)
+            %td= suggestion.created_at
+            %td
+              %table
+                %tr= link_to 'See Details', suggestion_path(suggestion)
+                %tr= link_to 'Remove', suggestion_path(suggestion), :confirm => 'Are you sure?', :method => :delete
+

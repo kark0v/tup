@@ -1,0 +1,18 @@
+- title 'Administration :: Dashboard'
+- section 'admin'
+
+= render :partial => 'subnavs/admin'
+
+.one-column		
+  %h2.title
+    What is new on The Usability Page?
+
+  %ul
+    %li= link_to 'Suggestions', suggestions_admin_path
+    %li= link_to 'Endorsements', endorsements_admin_path
+    %li= link_to 'Conversations', conversations_admin_path
+    %li= link_to 'Books for review', books_for_review_admin_path
+    %li= link_to 'Rejected Books', rejected_books_admin_path
+    %li= link_to 'Pending Invites', pending_invites_admin_path
+    %li= link_to 'Sent Invites', sent_invites_admin_path
+

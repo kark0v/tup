@@ -1,0 +1,7 @@
+<p>Hello <%=h @review.reviewed_object.person.name %>!</p>
+
+<p><%= link_to h(@review.person.name), person_url(@review.person) %> just reviewed your <%= @review.reviewed_object.class.to_s %> <%= link_to h(@review.reviewed_object.log_name), eval("#{@review.reviewed_object.class.to_s.downcase}_path(#{@review.reviewed_object.id})") %> at <%= link_to "The Usability Page", root_url %>.
+    
+<p>---<br />The Usability Page Team</p>
+
+<p>This message was intended for <%=h @review.reviewed_object.person.email %>. If you do not wish to receive this type of email from The Usability Page in the future, go to your profile and configure your notification settings.</p>
